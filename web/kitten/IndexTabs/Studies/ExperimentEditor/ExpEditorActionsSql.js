@@ -237,73 +237,21 @@ $("#run_btn").on("click",function(){
 				label: "Online",
 				className: 'btn-primary',
 				callback: function(){
-          if(typeof(master_json.github.repository) == "undefined"){
-            bootbox.alert("You need to identify or create an online git repository  of Collector to run this online");
-          } else {
-						master_json.exp_mgmt.exp_condition = $("#select_condition").val();
-						// put in code from collector install here
-						//bootbox.dialog("<div id='github_dialog'></div>");
-						//$("#github_dialog").load('IndexTabs/Studies/ExperimentEditor/GithubDialog.html');
+					bootbox.confirm("This will go to the link you should send your participants. However, it can take 5+ minutes for this link to update from the moment you push the updates to github",function(result){
+						if(result){
+							var github_url =  "https://" +
+						                    master_json.github.username +
+						                    ".github.io/" +
+						                    master_json.github.repository +
+						                    "/web/" +
+						                    dev_obj.version +
+						                    "/";
 
-						var dialog = bootbox.dialog({
-							title: 'Synch with github repository',
-							message: '<div class="jumbotron">' +
-												  '<h1 class="display-4">Collector</h1>' +
-												  '<p class="lead">Put in the information below to install an online versions of Collector</p>' +
-												  '<div class="input-group mb-3">' +
-												    '<div class="input-group-prepend">' +
-												      '<span class="input-group-text bg-primary text-white">Your github username</span>' +
-												    '</div>' +
-												    '<input class="form-control" id="github_username"/>' +
-												  '</div>' +
-												  '<div class="input-group mb-3">'+
-												    '<div class="input-group-prepend">'+
-												     ' <span class="input-group-text bg-primary text-white">Your password</span>' +
-												    '</div>' +
-												    '<input class="form-control" id="github_password"/>' +
-												  '</div>' +
-													'<div class="input-group mb-3">'+
-												    '<div class="input-group-prepend">'+
-												     ' <span class="input-group-text bg-primary text-white">Your organisation (optional)</span>' +
-												    '</div>' +
-												    '<input class="form-control" id="github_organisation"/>' +
-												  '</div>' +
-												  '<div class="input-group mb-3">' +
-												    '<div class="input-group-prepend">' +
-												      '<span class="input-group-text bg-primary text-white">Your repository\'s name</span>' +
-												    '</div>' +
-												    '<input class="form-control" id="github_repository"/>' +
-												  '</div>' +
-												'</div>' +
-												'<script>' +
-													'if(typeof(master_json.github.organisation) == "undefined"){' +
-														'master_json.github.organisation = ""' +
-												  '}' +
-													'$("#github_username").val(master_json.github.username);' +
-													'$("#github_organisation").val(master_json.github.organisation);' +
-													'$("#github_repository").val(master_json.github.repository);' +
-												'</script>',
-							buttons: {
-									synch: {
-											label: "Synch",
-											className: 'btn-primary',
-											callback: function(){
-												eel.push_collector($("#github_username").val(),
-												                   $("#github_password").val(),
-																					 $("#github_organisation").val(),
-																					 $("#github_repository").val());
-											}
-									},
-									cancel: {
-											label: "Cancel",
-											className: 'btn-secondary',
-											callback: function(){
-													//nothing, just close
-											}
-									},
-							}
-				    });
-          }
+						  window.open(github_url  + "RunStudy.html?platform=github&" +
+						              "location=" + master_json.exp_mgmt.experiment + "&" +
+						              "name="     + master_json.exp_mgmt.exp_condition ,"_blank");
+						}
+					});
 				}
 			},
       preview:{
