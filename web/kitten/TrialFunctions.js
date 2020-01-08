@@ -24,16 +24,8 @@ if(typeof(Trial) !== "undefined"){
 		}
 		return (new Date()).getTime() - parent.parent.exp_json.this_trial["post_"+Trial.post_no+"_trial_start_ms"];
 	}
-  
-  Trial.google_save = function(folder_id,username,data){
-    $.post("https://script.google.com/macros/s/AKfycbyMQS4T2DpGkq6Ue4IDaRVHKKuQXoOnCm0116m92hmQTfn-Syk/exec",{
-      folder_id : folder_id,
-      username  : username,
-      data      : data
-    },function(result){
-      console.dir(result);
-    })
-  }	
+
+	
 	Trial.set_timer = function(this_function,duration){
 		parent.parent.exp_json.time_outs.push({
 			trial_no : Trial.trial_no,

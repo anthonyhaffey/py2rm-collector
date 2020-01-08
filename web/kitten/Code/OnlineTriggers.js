@@ -4,8 +4,6 @@
 
 for saving the files
 
-//https://script.google.com/macros/s/AKfycbyuUWN7Jc1j62OuUh1JrJFuHn7e2VXLZdZ9FJs4dvwX_D6JI7M7/exec
-
 */
 
 function google_keys(key_type){
@@ -20,7 +18,7 @@ function google_save(experiment_id,
                      participant_id,
                      encrypted_data,
                      save_script_url,
-                     after_function){  
+                     after_function){
 
   data = {
     participant_id: participant_id,

@@ -30,26 +30,26 @@
 <script src="../libraries/tweetnacl.js"></script>
 <script src="../libraries/tweetnacl-utils.js"></script>
 <script src="../libraries/crypto-js.min.js"></script>
-<script src="Code/googleTriggers.js"></script>
+<script src="Code/OnlineTriggers.js"></script>
 <script>
 
 function encrypt(receiverPublicKey, msgParams) {  //: string
-  const ephemeralKeyPair = nacl.box.keyPair()  
-  const pubKeyUInt8Array =  nacl.util.decodeBase64(receiverPublicKey)  
-  const msgParamsUInt8Array = nacl.util.decodeUTF8(msgParams)  
+  const ephemeralKeyPair = nacl.box.keyPair()
+  const pubKeyUInt8Array =  nacl.util.decodeBase64(receiverPublicKey)
+  const msgParamsUInt8Array = nacl.util.decodeUTF8(msgParams)
   const nonce = nacl.randomBytes(nacl.box.nonceLength)
   const encryptedMessage = nacl.box(
     msgParamsUInt8Array,
     nonce,
     pubKeyUInt8Array,
     ephemeralKeyPair.secretKey
-  )  
+  )
   return {
     ciphertext: nacl.util.encodeBase64(encryptedMessage),
     ephemPubKey: nacl.util.encodeBase64(ephemeralKeyPair.publicKey),
     nonce: nacl.util.encodeBase64(nonce),
     version: "x25519-xsalsa20-poly1305"
-  }  
+  }
 }
 </script>
 <div id="initiate_collector_div"></div>
@@ -205,23 +205,23 @@ if(typeof(block_save) !== "undefined"){ //i.e. simulator
 <script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
 
 <script>
-google_obj = {
+online_data_obj = {
   saves_started:0,
   saves_ended:0,
   save_queue:[],
   run_save:function(){
-    var this_save = google_obj.save_queue.pop();
+    var this_save = online_data_obj.save_queue.pop();
     this_save();
-    if(google_obj.save_queue.length > 0){         //keep going until all saves done.
+    if(online_data_obj.save_queue.length > 0){         //keep going until all saves done.
       gogle_obj.run_save();
     }
   },
   save_queue_add:function(save_queue_item){
-    google_obj.save_queue.push(save_queue_item);
-    if(google_obj.save_queue.length == 1){        //need to initiate run_save as it stopped before you added this item
-      google_obj.run_save();
+    online_data_obj.save_queue.push(save_queue_item);
+    if(online_data_obj.save_queue.length == 1){        //need to initiate run_save as it stopped before you added this item
+      online_data_obj.run_save();
     }
-  }  
+  }
 }
 
 function local_save(){
@@ -313,7 +313,7 @@ function final_trial(){
 
             if(download_at_end == "on"){
               $("#download_div").html("<h1 class='text-primary'>" + message_data[0] + " <br><br> You can download the encrypted version of your data <span id='encrypt_click' class='text-success'>here</span> <br><br>or an unencrypted version <span id='raw_click' class='text-success'>here</span></h1>");
-              
+
                 $("#encrypt_click").on("click",function(){
                   bootbox.prompt({
                     title:"What do you want to save this file as?",
@@ -357,9 +357,9 @@ function final_trial(){
                                   '<div id="google_progress" class="progress-bar progress-bar-striped progress-bar-animated" role="progressbar" aria-valuenow="75" aria-valuemin="0" aria-valuemax="100" style="width: 75%">' +
                                   '</div>' +
                                 '</div>');
-      function google_save_check(){
+      function online_save_check(){
         setTimeout(function(){
-          if(google_obj.saves_started == google_obj.saves_ended){
+          if(online_data_obj.saves_started == online_data_obj.saves_ended){
             $("#google_progress").css("width","100%");
             setTimeout(function(){
               $("#experiment_div").html("<h1>Thank you for participating. If you'd like to download your raw data <span id='download_json'>click here</span></h1>");
@@ -369,16 +369,16 @@ function final_trial(){
               window.localStorage.removeItem("username");
             },1000);
           } else {
-            var google_prog_perc = (100*google_obj.saves_ended/google_obj.saves_started) + "%";
+            var google_prog_perc = (100*online_data_obj.saves_ended/online_data_obj.saves_started) + "%";
             $("#google_progress").css("width",google_prog_perc);
-            google_save_check();
+            online_save_check();
           }
         },1000);
       }
-      google_save_check();
+      online_save_check();
       break;
   }
-	
+
 	$("#download_json").on("click",function(){
 		precrypted_data(exp_json,"What do you want to save this file as?");
 	});
@@ -498,7 +498,7 @@ function process_welcome(){
 		if(pp_id_setting == "off"){																// put in a participant ID that is clearly not unique (e.g. "notUnique").
 			$("#participant_code").val("notUnique");
 			post_welcome("notUnique","skip"); 											//"skip" means that it will automatically accept non unique ids
-		} else if(pp_id_setting == "random"){      
+		} else if(pp_id_setting == "random"){
 			var this_code = Math.random().toString(36).substr(2, 16)
 			$("#participant_code").val(this_code);
       post_welcome(this_code,"random");
@@ -585,17 +585,17 @@ function create_exp_json_functions(){
                       }));                    //the data
         break;
       case "github":
-        google_obj.saves_started ++;
-        google_obj.save_queue_add(
+        online_data_obj.saves_started ++;
+        online_data_obj.save_queue_add(
           function(){
-            google_save(dev_obj.experiment,
+            online_save(dev_obj.experiment,
                         $("#participant_code").val(),
                         JSON.stringify(encrypt(exp_json.public_key,    //the public key
                         JSON.stringify(exp_json.responses))),          //the data
             exp_json.save_script,
             function(){
-              google_obj.saves_ended ++;
-            }); 
+              online_data_obj.saves_ended ++;
+            });
           }
         );
         break
@@ -605,9 +605,9 @@ function create_exp_json_functions(){
     }
     //trigger google save if we know we're in github
     if(dev_obj.context == "github"){
-      
+
     }
-    
+
 		$("#experiment_progress").css("width",(100 * exp_json.trial_no/(exp_json.parsed_proc.length-1))+"%");
 		if(typeof(trial_no) !== "undefined"){
 
@@ -1163,7 +1163,7 @@ function start_study(){
       break;
     default:
       if(typeof(get_vars.location) !== "undefined" && get_vars.location !== ""){
-        console.dir(get_vars.location);        
+        console.dir(get_vars.location);
         if(get_vars.location.indexOf("www.dropbox") !== -1){
           get_location = get_vars.location.replace("www.","dl.");
         } else {
@@ -1184,7 +1184,7 @@ if(get_vars.platform == "preview"){
   bootbox.alert("You are in <b>Preview</b> mode. This means that you will <b>NOT</b> be saving any data. If this is not what you want, go back to the study editor, click <em>run</em> again, and click on 'local' or 'online' instead of 'preview'");
 }
 if(window.localStorage.getItem("exp_json") !== null){
-   
+
   bootbox.dialog({
 		title:"Restart?",
 		message: "It looks like you have already started this experiment, would you like to resume or restart?",
