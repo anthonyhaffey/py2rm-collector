@@ -1,0 +1,6 @@
+post_0_trial_start_ms,item,max_time,shuffle_1,text,trial type,post_0_trial_end_ms,post_0_trial_end_date,max time,shuffle 1,,repeat
+,,,,,,,,,,,
+1578478478059,0,,off,,start_experiment,1578478485806,Wed Jan 08 2020 10:14:45 GMT+0000 (Greenwich Mean Time),,,,
+1578478485816,0,,,1,instruct,1578478487164,Wed Jan 08 2020 10:14:47 GMT+0000 (Greenwich Mean Time),user,off,,
+1578478487170,0,,,2,instruct,1578478487771,Wed Jan 08 2020 10:14:47 GMT+0000 (Greenwich Mean Time),user,off,,
+1578478487775,0,,,3,instruct,1578478488195,Wed Jan 08 2020 10:14:48 GMT+0000 (Greenwich Mean Time),user,off,,
