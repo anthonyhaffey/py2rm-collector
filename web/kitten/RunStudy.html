@@ -971,21 +971,6 @@ function requestFullScreen(element) {
     }
 }
 
-function save_csv (filename, data) {
-	var blob = new Blob([data], {type: 'text/csv'});
-	if(window.navigator.msSaveOrOpenBlob) {
-		window.navigator.msSaveBlob(blob, filename);
-	}
-	else{
-		var elem = window.document.createElement('a');
-		elem.href = window.URL.createObjectURL(blob);
-		elem.download = filename;
-		document.body.appendChild(elem);
-		elem.click();
-		document.body.removeChild(elem);
-	}
-}
-
 function shuffleArray(array) { //by Laurens Holst on https://stackoverflow.com/questions/2450954/how-to-randomize-shuffle-a-javascript-array?utm_medium=organic&utm_source=google_rich_qa&utm_campaign=google_rich_qa
     for (let i = array.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));

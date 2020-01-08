@@ -49,8 +49,8 @@ function complete_csv(this_csv){
       if(response_headers.indexOf(header) == -1){
         response_headers.push(header);
       };
-    });        
-  }        
+    });
+  }
 
   for(var i =0; i < this_csv.length; i++){
     response_headers.forEach(function(this_header){
@@ -147,7 +147,20 @@ function initiate_collector(){
       break;
   }
 }
-
+function save_csv (filename, data) {
+	var blob = new Blob([data], {type: 'text/csv'});
+	if(window.navigator.msSaveOrOpenBlob) {
+		window.navigator.msSaveBlob(blob, filename);
+	}
+	else{
+		var elem = window.document.createElement('a');
+		elem.href = window.URL.createObjectURL(blob);
+		elem.download = filename;
+		document.body.appendChild(elem);
+		elem.click();
+		document.body.removeChild(elem);
+	}
+}
 function update_dropdown_list(list_id,list,option_class){
     user_trialtype_list = user_trialtype_list.sort();
 	user_trialtype_list.forEach(function(trialtype){
