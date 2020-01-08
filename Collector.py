@@ -79,14 +79,20 @@ def push_collector(username,
     #create repository if that fails
     #os.system("git push https://github.com/open-collector/open-collector")
     try:
-        os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
+        os.system("git add .")
+        os.system("git commit -m 'pushing from local'")
+        os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
     except:
         print("looks like I need to create a repository to push to")
 
         #need to make this a repository
-        os.system("git init")
-
         os.system("hub init " + repository)
+        os.system("git add .")
+        os.system("git commit -m 'pushing from local'")
+        os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
+        #git config receive.denyCurrentBranch refuse
+        #git push --set-upstream py2rm-collector
+
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
     finally:
         print("success")
