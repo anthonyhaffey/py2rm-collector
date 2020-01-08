@@ -81,10 +81,6 @@ function get_HoT_data(current_sheet) { // needs to be adjusted for
 
 function new_experiment(experiment){
 
-
-  $("#run_button").prop('disabled', true);
-  $("#run_button").prop('title', "Loading your new experiment, please wait a moment before previewing");
-
   if($("#experiment_list").text().indexOf(experiment) !== -1){
 		bootbox.alert("Name already exists. Please try again.");
 	} else {
@@ -104,8 +100,6 @@ function new_experiment(experiment){
       }));
       $("#experiment_list").val(experiment);
       $("#save_btn").click();
-      $("#run_button").prop('disabled', false);
-      $("#run_button").prop('title', "");
     }
 		dbx_obj.new_upload({path:this_path,contents:JSON.stringify(new_experiment_data)},function(result){
       dbx.sharingCreateSharedLink({path:this_path})

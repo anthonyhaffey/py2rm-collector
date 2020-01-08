@@ -4,8 +4,6 @@
 
 for saving the files
 
-*/
-
 function google_keys(key_type){
   switch(key_type){
     case "researcher":
@@ -14,7 +12,10 @@ function google_keys(key_type){
   }
 }
 
-function google_save(experiment_id,
+*/
+
+
+function online_save(experiment_id,
                      participant_id,
                      encrypted_data,
                      save_script_url,

@@ -58,6 +58,18 @@ $("#download_experiment_button").on("click",function(){
 		}
 	});
 });
+$("#new_experiment_button").on("click",function(){
+	bootbox.prompt("What would you like to name the new experiment?",function(result){
+		if(result !== null){
+			if($("#experiment_list").text().indexOf(result) !== -1){
+				bootbox.alert("You already have an experiment with this name");
+			} else {
+				new_experiment(result);
+				$("#save_btn").click();
+			}
+		}
+	});
+});
 $("#new_proc_button").on("click",function(){
   var proc_template = new_experiment_data["Procedure"]["Procedure.csv"];
 	bootbox.prompt("What would you like the name of the new procedure sheet to be?",function(new_proc_name){
@@ -95,17 +107,6 @@ $("#new_stim_button").on("click",function(){
 			}));
 			$("#stim_select").val(new_sheet_name);
 			createExpEditorHoT(this_exp.all_stims[new_sheet_name],"stimuli",new_sheet_name);	//sheet_name
-		}
-	});
-});
-$("#new_experiment_button").on("click",function(){
-	bootbox.prompt("What would you like to name the new experiment?",function(result){
-		if(result !== null){
-			if($("#experiment_list").text().indexOf(result) !== -1){
-				bootbox.alert("You already have an experiment with this name");
-			} else {
-				new_experiment(result);
-			}
 		}
 	});
 });
