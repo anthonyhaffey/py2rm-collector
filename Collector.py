@@ -95,7 +95,7 @@ def push_collector(username,
 
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
     finally:
-        print("success")
+        eel.start_online()
 
 @eel.expose
 def update_collector(location,

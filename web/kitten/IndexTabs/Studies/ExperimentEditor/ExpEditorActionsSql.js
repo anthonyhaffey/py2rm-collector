@@ -240,6 +240,7 @@ $("#run_btn").on("click",function(){
           if(typeof(master_json.github.repository) == "undefined"){
             bootbox.alert("You need to identify or create an online git repository  of Collector to run this online");
           } else {
+						master_json.exp_mgmt.exp_condition = $("#select_condition").val();
 						// put in code from collector install here
 						//bootbox.dialog("<div id='github_dialog'></div>");
 						//$("#github_dialog").load('IndexTabs/Studies/ExperimentEditor/GithubDialog.html');
@@ -275,8 +276,11 @@ $("#run_btn").on("click",function(){
 												  '</div>' +
 												'</div>' +
 												'<script>' +
+													'if(typeof(master_json.github.organisation) == "undefined"){' +
+														'master_json.github.organisation = ""' +
+												  '}' +
 													'$("#github_username").val(master_json.github.username);' +
-													//'$("#github_organisation").val(master_json.github.organisation);' +
+													'$("#github_organisation").val(master_json.github.organisation);' +
 													'$("#github_repository").val(master_json.github.repository);' +
 												'</script>',
 							buttons: {
@@ -289,17 +293,21 @@ $("#run_btn").on("click",function(){
 																					 $("#github_organisation").val(),
 																					 $("#github_repository").val());
 
-												var github_url =  "https://" +
-																					master_json.github.username +
-																					".github.io/" +
-																					master_json.github.repository +
-																					"/" +
-																					dev_obj.version +
-																					"/";
 
-												window.open(github_url + "RunStudy.html?platform=github&" +
-																		"location=" + master_json.exp_mgmt.experiment +"&" +
-																		"name=" + $("#select_condition").val(),"_blank");
+												function start_online(){
+													var github_url =  "https://" +
+																						master_json.github.username +
+																						".github.io/" +
+																						master_json.github.repository +
+																						"/" +
+																						dev_obj.version +
+																						"/";
+
+													window.open(github_url  + "RunStudy.html?platform=github&" +
+																			"location=" + master_json.exp_mgmt.experiment +"&" +
+																			"name="     + master_json.exp_mgmt.exp_condition ,"_blank");
+
+												}
 
 											}
 									},
