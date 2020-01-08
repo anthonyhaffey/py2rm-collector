@@ -16,6 +16,20 @@ function load_master_json(this_json){
   autoload_boosts();
 }
 
+eel.expose(start_online);
+function start_online(){
+  var github_url =  "https://" +
+                    master_json.github.username +
+                    ".github.io/" +
+                    master_json.github.repository +
+                    "/web/" +
+                    dev_obj.version +
+                    "/";
+
+  window.open(github_url  + "RunStudy.html?platform=github&" +
+              "location=" + master_json.exp_mgmt.experiment + "&" +
+              "name="     + master_json.exp_mgmt.exp_condition ,"_blank");
+}
 // this is a hack to deal with asynchronous order of parts of the page loading
 function wait_till_exists(this_function){
   if(typeof(window[this_function]) == "undefined"){

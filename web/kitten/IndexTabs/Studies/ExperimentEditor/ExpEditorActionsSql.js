@@ -292,23 +292,6 @@ $("#run_btn").on("click",function(){
 												                   $("#github_password").val(),
 																					 $("#github_organisation").val(),
 																					 $("#github_repository").val());
-
-
-												function start_online(){
-													var github_url =  "https://" +
-																						master_json.github.username +
-																						".github.io/" +
-																						master_json.github.repository +
-																						"/" +
-																						dev_obj.version +
-																						"/";
-
-													window.open(github_url  + "RunStudy.html?platform=github&" +
-																			"location=" + master_json.exp_mgmt.experiment +"&" +
-																			"name="     + master_json.exp_mgmt.exp_condition ,"_blank");
-
-												}
-
 											}
 									},
 									cancel: {
