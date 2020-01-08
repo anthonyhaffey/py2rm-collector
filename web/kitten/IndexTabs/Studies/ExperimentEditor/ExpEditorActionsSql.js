@@ -238,6 +238,7 @@ $("#run_btn").on("click",function(){
 				label: "Online",
 				className: 'btn-primary',
 				callback: function(){
+					master_json.exp_mgmt.exp_condition = $("#select_condition").val();
 					bootbox.confirm("This will go to the link you should send your participants. However, it can take 5+ minutes for this link to update from the moment you push the updates to github",function(result){
 						if(result){
 							var github_url =  "https://" +
