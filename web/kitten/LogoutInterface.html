@@ -135,7 +135,7 @@ $("#collector_logo").on("click", function(){
 $("#github_logo").on("click",function(){
 	if(typeof(master_json.github) == "undefined"){
 		master_json.github = {
-			
+
 		}
 	}
 	if(typeof(master_json.github.repository) == "undefined"){
@@ -206,9 +206,15 @@ $("#github_logo").on("click",function(){
 						label: "Update Collector",
 						classname: "btn-info",
 						callback:function(){
+							var username     = $("#github_username").val();
+							var organisation = $("#github_organisation").val();
+							var repository   = $("#github_repository").val();
+
 							bootbox.confirm("Are you sure you want to update Collector?",function(result){
 								if(result){
-									eel.pull_open_collector();
+									eel.pull_open_collector(username,
+																				 organisation,
+																				 repository);
 								}
 							});
 						}

@@ -78,7 +78,7 @@ def pull_open_collector(username,
         os.system("git remote set-url --push origin https://github.com/" + organisation +"/" + repository + ".git")
         os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
         os.system("git fetch origin master")
-        os.system("git merge -X theirs origin/master --allow-unrelated-histories")
+        os.system("git merge -X theirs origin/master --allow-unrelated-histories -m'update from open-collector'")
     except:
         print("Something went wrong")
     finally:
