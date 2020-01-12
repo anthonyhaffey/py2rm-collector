@@ -69,6 +69,24 @@ def startup():
         eel.load_settings(settings.read())
 
 @eel.expose
+def pull_open_collector(username,
+                       organisation,
+                       repository):
+    if(organisation == ""):
+        organisation = username
+    try:
+        os.system("git remote set-url --push origin https://github.com/" + organisation +"/" + repository + ".git")
+        os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
+        os.system("git fetch origin master")
+        os.system("git merge -X theirs origin/master --allow-unrelated-histories")
+    except:
+        print("Something went wrong")
+    finally:
+        print("Attempt to update finished")
+        #should trigger restart here
+
+
+@eel.expose
 def push_collector(username,
                    password,
                    organisation,
@@ -86,14 +104,20 @@ def push_collector(username,
         print("looks like I need to create a repository to push to")
 
         #need to make this a repository
-        os.system("hub init " + repository)
+        if(organisation != username):
+            create_repository = organisation + "/" + repository
+        else :
+            create_repository = repository
+        os.system('git init')
+        os.system('eval "$(ssh-agent -s)"')
+        os.system("hub create " + create_repository)
         os.system("git add .")
         os.system("git commit -m 'pushing from local'")
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
         #git config receive.denyCurrentBranch refuse
         #git push --set-upstream py2rm-collector
 
-        os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
+        #os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
     finally:
         print("It all seems to have worked - mostly speaking")
 

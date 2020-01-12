@@ -91,29 +91,30 @@ trialtypes_obj = {
 			graphic_editor_obj.clean_canvas();
       editor.setValue("");
 		}
-		dbx_obj.new_upload({path:"/trialtypes/"+name+".html",contents:content,mode:"overwrite"},function(result){
-			if($('#trial_type_select option').filter(function(){
-				return $(this).val() == name;
-			}).length == 0){
-				$('#trial_type_select').append($("<option>", {
-					value: name,
-					text : name,
-					class: "user_trialtype"
-				}));
-				$("#trial_type_select").val(name);
-        $("#trial_type_select")[0].className = $("#trial_type_select")[0].className.replace("default_","user_");
+		if($('#trial_type_select option').filter(function(){
+			return $(this).val() == name;
+		}).length == 0){
+			$('#trial_type_select').append($("<option>", {
+				value: name,
+				text : name,
+				class: "user_trialtype"
+			}));
+			$("#trial_type_select").val(name);
+			$("#trial_type_select")[0].className = $("#trial_type_select")[0].className.replace("default_","user_");
 
-				if(graphic_code == "code"){
-					$("#ACE_editor").show();
-				} else if(graphic_code == "graphic"){
-					$("#graphic_editor").show();
-				}
-				$("#trial_type_file_select").show();
-				$("#default_user_trialtype_span").html("user_trialtype");
-        custom_alert("success - " + name + " created");
-			} else {
-				custom_alert("success - " + name + " updated");
+			if(graphic_code == "code"){
+				$("#ACE_editor").show();
+			} else if(graphic_code == "graphic"){
+				$("#graphic_editor").show();
 			}
+			$("#trial_type_file_select").show();
+			$("#default_user_trialtype_span").html("user_trialtype");
+			custom_alert("success - " + name + " created");
+		} else {
+			custom_alert("success - " + name + " updated");
+		}
+		dbx_obj.new_upload({path:"/trialtypes/"+name+".html",contents:content,mode:"overwrite"},function(result){
+			custom_alert("<b>" + name + "updated on dropbox");
 		},function(error){
 			bootbox.alert("error: "+error.error+"<br> try saving again after waiting a little");
 		},
