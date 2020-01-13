@@ -189,13 +189,6 @@ $("#github_logo").on("click",function(){
 																	 $("#github_repository").val());
 							}
 					},
-					cancel: {
-							label: "Cancel",
-							className: 'btn-secondary',
-							callback: function(){
-									//nothing, just close
-							}
-					},
 					update: {
 						label: "Update Collector",
 						classname: "btn-info",
@@ -211,6 +204,13 @@ $("#github_logo").on("click",function(){
 																				 repository);
 								}
 							});
+						}
+					},
+					cancel: {
+						label: "Cancel",
+						className: 'btn-secondary',
+						callback: function(){
+							//nothing, just close
 						}
 					}
 			}

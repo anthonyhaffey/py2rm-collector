@@ -621,6 +621,7 @@ function create_exp_json_functions(){
 		trial_end_ms = (new Date()).getTime();
 		trial_inputs = {};
 
+
 		for(var i = 0; i < exp_json.inputs.length; i++){
 			if($("input[name='"+exp_json.inputs[i].name+"']:checked").length == 0){
 				trial_inputs[exp_json.inputs[i].name]=exp_json.inputs[i].value;
@@ -632,10 +633,10 @@ function create_exp_json_functions(){
 		}
 
 		this_proc = exp_json.parsed_proc[exp_json.trial_no];
-		if(typeof(exp_json.parsed_stims[exp_json.stimuli][this_proc.item]) == "undefined"){
+		if(typeof(exp_json.parsed_stims[exp_json.this_condition.stimuli][this_proc.item]) == "undefined"){
 			this_stim = {};
 		} else {
-			this_stim = exp_json.parsed_stims[exp_json.stimuli][this_proc.item];
+			this_stim = exp_json.parsed_stims[exp_json.this_condition.stimuli][this_proc.item];
 		}
 
     if(this_stim == null){

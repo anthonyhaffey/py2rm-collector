@@ -154,7 +154,7 @@ def load_master_json():
     print("hi")
     #check if the uber mega file exists yet
     try:
-        master_json = open("web/Local/master.json", "r")
+        master_json = open("web/User/master.json", "r")
     except:
         master_json = open("web/kitten/Default/master.json", "r")
     finally:
@@ -170,31 +170,31 @@ def save_data(experiment_name,participant_code,responses):
     print(participant_code)
     print("responses")
     print(responses)
-    if os.path.isdir("web/Local/Data") == False:
-        os.mkdir("web/Local/Data")
-    if os.path.isdir("web/Local/Data/" + experiment_name) == False:
-        os.mkdir("web/Local/Data/" + experiment_name)
-    experiment_file = open("web/Local/Data/" + experiment_name+ "/" + participant_code + ".csv", "w")
+    if os.path.isdir("web/User/Data") == False:
+        os.mkdir("web/User/Data")
+    if os.path.isdir("web/User/Data/" + experiment_name) == False:
+        os.mkdir("web/User/Data/" + experiment_name)
+    experiment_file = open("web/User/Data/" + experiment_name+ "/" + participant_code + ".csv", "w")
     experiment_file.write(responses)
 
 
 @eel.expose
 def save_experiment(experiment_name,experiment_json):
     print("trying to save experiment")
-    if os.path.isdir("web/Local/Experiments") == False:
-        os.mkdir("web/Local/Experiments")
+    if os.path.isdir("web/User/Experiments") == False:
+        os.mkdir("web/User/Experiments")
     print(experiment_name)
     print(json.dumps(experiment_json))
-    experiment_file = open("web/Local/Experiments/" + experiment_name + ".json", "w")
+    experiment_file = open("web/User/Experiments/" + experiment_name + ".json", "w")
     experiment_file.write(json.dumps(experiment_json))
 
 
 @eel.expose
 def save_master_json(master_json):
-    #detect if the "Local" folder exists yet
-    if os.path.isdir("web/Local") == False:
-        os.mkdir("web/Local")
-    master_file = open("web/Local/master.json", "w")
+    #detect if the "User" folder exists yet
+    if os.path.isdir("web/User") == False:
+        os.mkdir("web/User")
+    master_file = open("web/User/master.json", "w")
     master_file.write(json.dumps(master_json))
 
 eel.init('web') #allowed_extensions=[".js",".html"]
