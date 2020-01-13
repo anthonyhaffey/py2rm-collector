@@ -42,12 +42,6 @@
     <td>
       <span id="save_status" class="text-white"></span>
     </td>
-		<td>
-			<span id="google_account_email" class="account_info text-white"></span>
-		</td>
-    <td>
-			<img class='logo' style="border-radius: 50%; background-color:white; padding:2px" src="../logos/google.png" id="google_logo">
-		</td>
     <td>
       <span id="collector_account_email" class="account_info text-white"></span>
     </td>
@@ -222,15 +216,6 @@ $("#github_logo").on("click",function(){
 			}
 		});
 	}
-});
-
-
-$("#google_logo").on("click",function(){
-  bootbox.confirm("Would you like to open your google drive in a new tab?",function(response){
-    if(response){
-      window.open('https://drive.google.com/drive/u/0/my-drive','_blank');
-    }
-  });
 });
 
 $("#dropbox_logo").on("click", function(){

@@ -71,7 +71,7 @@ $("#new_experiment_button").on("click",function(){
 	});
 });
 $("#new_proc_button").on("click",function(){
-  var proc_template = new_experiment_data["Procedure"]["Procedure.csv"];
+  var proc_template = new_experiment_data["Procedure"]["Procedure_1"];
 	bootbox.prompt("What would you like the name of the new procedure sheet to be?",function(new_proc_name){
 		var experiment = master_json.exp_mgmt.experiment;
 		var this_exp   = master_json.exp_mgmt.experiments[experiment];

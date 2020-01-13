@@ -13,11 +13,11 @@
 	},
 	"stimuli":{
     "subtitle":"Which Stimuli sheet?",
-    "text":"By default, your experiment will use <b>Stimuli.csv</b>, which is used as a list of words or media files (images, audio, pictures) that your experiment will use. If you want different lists of stimuli, you need to create a new stimuli sheet. Note: you can also select stimuli sheets during a trial, not just during conditions."
+    "text":"By default, your experiment will use <b>Stimuli_1</b>, which is used as a list of words or media files (images, audio, pictures) that your experiment will use. If you want different lists of stimuli, you need to create a new stimuli sheet. Note: you can also select stimuli sheets during a trial, not just during conditions."
   },
 	"procedure":{
     "subtitle":"Which Procedure sheet?",
-    "text":"By default, your experiment will use <b>Procedure.csv</b>, which is a list of the order of trials and settings for each trial. If you want different participants to have different procedures, you will need to create a new procedure sheet, and have separate rows in the condition sheet for each procedure."
+    "text":"By default, your experiment will use <b>Procedure_1</b>, which is a list of the order of trials and settings for each trial. If you want different participants to have different procedures, you will need to create a new procedure sheet, and have separate rows in the condition sheet for each procedure."
   },
 	"download_at_end":{
     "subtitle":"Can participant download at the end?",
@@ -44,6 +44,3 @@
     "text":"By default, the experiment will <b>NOT</b> be in Fullscreen mode. Change this to <b>on</b> if you don't want this."
   }
 }
-
-
-

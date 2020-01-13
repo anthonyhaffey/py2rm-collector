@@ -20,39 +20,47 @@
 */
 -->
 <style>
-	#trial_progress_span{
-		margin:auto;
-		width:300px;
-	}
-    .user_trialtype{
-        background-color:PaleGreen ;
-    }
-    .default_trialtype{
-        background-color:LightSkyBlue ;
-    }
-	#default_user_trialtype_span{
-		padding : 5px;
-		border-radius : 5px;
-	}
+.user_trialtype{
+  background-color:PaleGreen ;
+}
+.default_trialtype{
+  background-color:LightSkyBlue ;
+}
+
+#default_user_trialtype_span{
+	padding : 5px;
+	border-radius : 5px;
+}
+#trial_progress_span{
+	margin:auto;
+	width:300px;
+}
 </style>
 <br><br>
 <div id="trial_progress_span"></div>
 
 <div id="TrialTypes" class="hide_show_elements">
 
-<div id="trial_type_selectors">
-	<button class="btn btn-primary" id="community_trialtypes_btn">Community</button>
-	<select id="trial_type_select">
-		<option hidden disabled selected>Select a Trial Type</option>
-	</select>
-	<span id="default_user_trialtype_span"></span>
-	<button id="new_trial_type_button" 		class="btn btn-primary">New</button>
-	<button id="rename_trial_type_button" class="btn btn-primary" style="display:none">Rename</button>
-	<button id="delete_trial_type_button" class="btn btn-primary" style="display:none">Delete</button>
-	<button id="save_trial_type_button" class="btn btn-primary">Save</button>
-	<button id="view_trialtype_backups" class="btn btn-primary">Revert to backup</button>
-	<button class="btn btn-outline-primary" id="view_code_btn">Code</button>
-	<button class="btn btn-outline-primary" id="view_graphic_btn">Graphic</button>
+<div class="row">
+	<div class="col-md-1">
+		<button class="btn btn-primary" id="community_trialtypes_btn">Community</button>
+	</div>
+	<div class="col-md-3">
+		<select id="trial_type_select" class="form-control">
+			<option hidden disabled selected>Select a Trial Type</option>
+		</select>
+	</div>
+	<div class="col-md-8">
+		<span id="default_user_trialtype_span"></span>
+		<button id="new_trial_type_button" 		class="btn btn-primary">New</button>
+		<button id="rename_trial_type_button" class="btn btn-primary" style="display:none">Rename</button>
+		<button id="delete_trial_type_button" class="btn btn-primary" style="display:none">Delete</button>
+		<button id="save_trial_type_button" class="btn btn-primary">Save</button>
+		<button id="view_trialtype_backups" class="btn btn-primary">Revert to backup</button>
+		<button class="btn btn-outline-primary" id="view_code_btn">Code</button>
+		<button class="btn btn-outline-primary" id="view_graphic_btn">Graphic</button>
+	</div>
+
 </div>
 
 <style type="text/css" media="screen">

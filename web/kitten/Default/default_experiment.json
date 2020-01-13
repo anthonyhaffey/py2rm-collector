@@ -1,6 +1,6 @@
 {
   "all_procs":{
-    "Procedure.csv": [["Item","Trial Type","Max Time","Text",                                  "Shuffle 1"],
+    "Procedure1": [["Item","Trial Type","Max Time","Text",                                  "Shuffle 1"],
                       ["0",   "Instruct",  "user",    "This is the start of a new experiment.",        "off"]]
   },
   "cond_array":[["Name",
@@ -15,18 +15,18 @@
                  "buffer"],
                 ["condition_1",
                  "You can put more detailed notes in this field",
-                 "Stimuli.csv",
-                 "Procedure.csv",
+                 "Stimuli_1",
+                 "Procedure_1",
                  "off",
                  "",
                  "on",
                  "",
                  "",
                  5]],
-  "Conditions.csv":[["Name","Notes","Stimuli 1","Procedure 1"],
-    ["New Experiment","You can put more detailed notes in this field","Stimuli.csv","Procedure.csv"]],
+  "Conditions":[["Name","Notes","Stimuli 1","Procedure 1"],
+    ["New Experiment","You can put more detailed notes in this field","Stimuli_1","Procedure_1"]],
   "all_stims":{
-    "Stimuli.csv":[
+    "Stimuli":[
       ["Cue","Answer"],
       ["A","Apple"],
       ["B","Banana"]

@@ -52,7 +52,7 @@ switch(dev_obj.context){
       break;
   /* this seems redundant (and messy)
   case "localhost":
-    
+
     $.post("LocalExperiments.php",function(published_links){
       dev_obj.published_links = published_links;
     });
@@ -187,7 +187,7 @@ function list_experiments(){
       case "localhost":
         update_exp_list()
         break;
-    }  
+    }
   }
 }
 
@@ -195,16 +195,16 @@ function list_experiments(){
 function online_settings(){
   if(typeof(master_json.github) == "undefined"){
     master_json.github = {}
-  } 
+  }
   if(typeof(master_json.github.username) == "undefined"){
     master_json.github.username = ""
   }
   if(typeof(master_json.github.repository) == "undefined"){
     master_json.github.repository = ""
   }
-  
+
   function generate_prepend(setting){
-    prepend_html = 
+    prepend_html =
       '<div class="input-group mb-3">' +
         '<div class="input-group-prepend">' +
           '<span class="input-group-text" id="prepend-' + setting.replaceAll(".","-") + '">' +  setting.replaceAll(".","-") + '</span>' +
@@ -229,7 +229,7 @@ function online_settings(){
           "<td>"+
             generate_prepend("github.repository")+
           "</td>"+
-          "<td>" + 
+          "<td>" +
             '<button id="apply_filter_btn" type="button" class="btn btn-primary" onclick="update_this_setting(\'github.repository\')">Update</button>'+
           "</td>"+
         "</tr>"+
@@ -237,7 +237,7 @@ function online_settings(){
           "<td>"+
             generate_prepend("data.save_script")+
           "</td>"+
-          "<td>" + 
+          "<td>" +
             '<button id="apply_filter_btn" type="button" class="btn btn-primary" onclick="update_this_setting(\'data.save_script\')">Update</button>'+
           "</td>"+
         "</tr>"+
@@ -271,16 +271,16 @@ function stim_proc_defaults(proc_values,stim_values){
 	var experiment = master_json.exp_mgmt.experiment;
 	var this_exp   = master_json.exp_mgmt.experiments[experiment];
 
-	// selecting Stimuli.csv and Procedure.csv as default
-	if(proc_values.indexOf("Procedure.csv") !== -1){
-		$('#proc_select').val("Procedure.csv");
-		this_exp.procedure = "Procedure.csv";
+	// selecting Stimuli_1 and Procedure_1 as default
+	if(proc_values.indexOf("Procedure_1") !== -1){
+		$('#proc_select').val("Procedure_1");
+		this_exp.procedure = "Procedure_1";
 	} else {
 		this_exp.procedure = this_exp[proc_values[0]];
 	}
-	if(stim_values.indexOf("Stimuli.csv") !== -1){
-		$('#stim_select').val("Stimuli.csv");
-		this_exp.stimuli = "Stimuli.csv";
+	if(stim_values.indexOf("Stimuli_1") !== -1){
+		$('#stim_select').val("Stimuli_1");
+		this_exp.stimuli = "Stimuli_1";
 	} else {
 		this_exp.stimuli = this_exp[stim_values[0]];
 	}
@@ -369,7 +369,7 @@ function update_trial_json(){
 	var proc_keys		= Object.keys(this_exp.all_procs);
 
 	//list all columns with trialtype in them
-	var post_trialtypes = this_exp.all_procs["Procedure.csv"][0].filter(function(key){
+	var post_trialtypes = this_exp.all_procs["Procedure_1"][0].filter(function(key){
 		return /trial type/.test(key);
 	});
 	proc_keys.forEach(function(procedure){

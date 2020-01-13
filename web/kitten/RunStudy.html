@@ -1139,7 +1139,7 @@ function start_study(){
     case "localhost":
     case "github":
     case "preview":
-      $.get("../Local/Experiments/" + get_vars.location + ".json",function(result){
+      $.get("../User/Experiments/" + get_vars.location + ".json",function(result){
         console.dir(result);
         exp_json = result;
         if(typeof(dev_obj.simulator_on) == "undefined" || dev_obj.simulator_on == "false"){ //note this HAS TO BE IN QUOTES to pass properly from PhP to js.
