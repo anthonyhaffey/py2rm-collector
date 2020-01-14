@@ -330,16 +330,16 @@ function update_handsontables(){
 	var this_exp   = master_json.exp_mgmt.experiments[experiment];
 
 	update_dropdown_lists();
-	var stim_file = this_exp.stimuli; //location_to_filename(this_exp.stimuli);
-	var proc_file = this_exp.procedure; //location_to_filename(this_exp.procedure);
+	var stim_file = this_exp.stimuli;    //location_to_filename(this_exp.stimuli);
+	var proc_file = this_exp.procedure;  //location_to_filename(this_exp.procedure);
 
 	if(typeof(stim_file) == "undefined"){
 		stim_file = Object.keys(this_exp.all_stims)[0];
 		proc_file = Object.keys(this_exp.all_procs)[0];
 	}
-	createExpEditorHoT(this_exp.all_stims[stim_file],"Stimuli",  stim_file);
-	createExpEditorHoT(this_exp.all_procs[proc_file], "Procedure",proc_file);
-	createExpEditorHoT(this_exp.cond_array,"Conditions","Conditions.csv");
+	createExpEditorHoT(this_exp.all_stims[stim_file], "Stimuli",   stim_file);
+	createExpEditorHoT(this_exp.all_procs[proc_file], "Procedure", proc_file);
+	createExpEditorHoT(this_exp.cond_array, "Conditions","Conditions.csv");
 
 	$("#run_stop_buttons").show();
 	master_json.exp_mgmt.any_loaded = true;
