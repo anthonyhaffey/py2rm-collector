@@ -99,7 +99,7 @@ def push_collector(username,
     #os.system("git push https://github.com/open-collector/open-collector")
     try:
         os.system("git add .")
-        os.system("git commit -m 'pushing from local'")
+        os.system("git commit -m '" + this_message + "'")
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
     except:
         print("looks like I need to create a repository to push to")
