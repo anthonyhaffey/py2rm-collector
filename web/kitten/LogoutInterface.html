@@ -62,10 +62,6 @@
 
 <script>
 
-console.dir("dev_obj");
-console.dir(dev_obj);
-console.dir(JSON.stringify(dev_obj));
-
 switch(dev_obj.context){
   case "github":
   case "localhost":
@@ -179,40 +175,74 @@ $("#github_logo").on("click",function(){
 									'$("#github_repository").val(master_json.github.repository);' +
 								'</' + 'script>',
 			buttons: {
-					synch: {
-							label: "Synch",
-							className: 'btn-primary',
-							callback: function(){
-								eel.push_collector($("#github_username").val(),
-																	 $("#github_password").val(),
-																	 $("#github_organisation").val(),
-																	 $("#github_repository").val());
-							}
-					},
-					update: {
-						label: "Update Collector",
-						classname: "btn-info",
-						callback:function(){
-							var username     = $("#github_username").val();
-							var organisation = $("#github_organisation").val();
-							var repository   = $("#github_repository").val();
+        synch: {
+          label: "Upload",
+          className: 'btn-primary',
+          callback: function(){
+            var organisation = $("#github_organisation").val();
+            var repository   = $("#github_repository").val();
+            var password     = $("#github_password").val();
+            var username     = $("#github_username").val();
+            
+            bootbox.prompt("How would you describe this update?",function(update_message){
+              if(update_message){
+                eel.push_collector(username,
+                                   password,
+                                   organisation,
+                                   repository,
+                                   update_message);              
+              } else {
+                eel.push_collector($("#github_username").val(),
+                                   $("#github_password").val(),
+                                   $("#github_organisation").val(),
+                                   $("#github_repository").val(),
+                                   "No message");              
+              }            
+            });
 
-							bootbox.confirm("Are you sure you want to update Collector?",function(result){
-								if(result){
-									eel.pull_open_collector(username,
-																				 organisation,
-																				 repository);
-								}
-							});
-						}
-					},
-					cancel: {
-						label: "Cancel",
-						className: 'btn-secondary',
-						callback: function(){
-							//nothing, just close
-						}
-					}
+            }
+        },
+        view: {
+          label: "Github",
+          className: 'btn-primary',
+          callback: function(){
+            var username     = $("#github_username").val();
+            var organisation = $("#github_organisation").val();
+            var repository   = $("#github_repository").val();
+
+            if(organisation == ""){
+              organisation = username;
+            }
+            window.open('https://www.github.com/' + 
+                        organisation + 
+                        '/' +
+                        repository,'_blank');
+          }
+        },
+        update: {
+          label: "Update",
+          className: "btn-danger",
+          callback:function(){
+            var username     = $("#github_username").val();
+            var organisation = $("#github_organisation").val();
+            var repository   = $("#github_repository").val();
+
+            bootbox.confirm("Are you sure you want to update Collector?",function(result){
+              if(result){
+                eel.pull_open_collector(username,
+                                       organisation,
+                                       repository);
+              }
+            });
+          }
+        },
+        cancel: {
+          label: "Cancel",
+          className: 'btn-secondary',
+          callback: function(){
+            //nothing, just close
+          }
+        }
 			}
 		});
 	}

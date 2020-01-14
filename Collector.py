@@ -90,7 +90,8 @@ def pull_open_collector(username,
 def push_collector(username,
                    password,
                    organisation,
-                   repository):
+                   repository,
+                   this_message):
     print("trying to push to the repository")
     if organisation == "":
         organisation = username
