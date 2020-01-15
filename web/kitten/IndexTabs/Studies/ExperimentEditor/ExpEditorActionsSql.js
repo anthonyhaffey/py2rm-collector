@@ -18,28 +18,40 @@
 		Kitten release (2019-2020) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)
 */
 $("#delete_exp_btn").on("click",function(){
-	var this_exp = $("#experiment_list").val();
-	if(this_exp == null){
+	var exp_name = $("#experiment_list").val();
+	if(exp_name == null){
 		bootbox.alert("You need to select a study to delete it");
 	} else {
 		bootbox.confirm("Are you sure you want to delete your experiment? <br><br> If you delete it you can go to your <a href='https://www.dropbox.com/home/Apps/Open-Collector' target='blank'>dropbox folder</a> to look up previous versions of your study.", function(result) {
 			if(result){
 				//delete from master_json
-				delete (master_json.exp_mgmt.experiments[this_exp]);
+				delete (master_json.exp_mgmt.experiments[exp_name]);
+				if(dropbox_check()){
+					dbx.filesDelete({path:"/experiments/"+exp_name+".json"})
+						.then(function(response) {
+							$('#experiment_list option:contains('+ exp_name +')')[0].remove();
+							$("#experiment_list").val(document.getElementById('experiment_list').options[0].value);
+							master_json.exp_mgmt.experiment = $("#experiment_list").val();
+							custom_alert(exp_name +" succesfully deleted");
+							update_master_json();
+							update_handsontables();
+						})
+						.catch(function(error) {
+							report_error(error);
+						});
+				} else {
+					$('#experiment_list option:contains('+ exp_name +')')[0].remove();
+					$("#experiment_list").val(document.getElementById('experiment_list').options[0].value);
+					master_json.exp_mgmt.experiment = $("#experiment_list").val();
+					custom_alert(exp_name +" succesfully deleted");
+					update_master_json();
+					update_handsontables();
 
-
-				dbx.filesDelete({path:"/experiments/"+this_exp+".json"})
-					.then(function(response) {
-						$('#experiment_list option:contains('+ this_exp +')')[0].remove();
-						$("#experiment_list").val(document.getElementById('experiment_list').options[0].value);
-						master_json.exp_mgmt.experiment = $("#experiment_list").val();
-						custom_alert(this_exp +" succesfully deleted");
-						update_master_json();
-						update_handsontables();
-					})
-					.catch(function(error) {
-						report_error(error);
-					});
+					//delete the local file if this is
+					if(dev_obj.context == "localhost"){
+						eel.delete_exp(exp_name);
+					}
+				}
 			}
 		});
 	}

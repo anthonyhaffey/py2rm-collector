@@ -1,6 +1,6 @@
 {
   "all_procs":{
-    "Procedure1": [["Item","Trial Type","Max Time","Text",                                  "Shuffle 1"],
+    "Procedure_1": [["Item","Trial Type","Max Time","Text",                                  "Shuffle 1"],
                       ["2",   "Instruct",  "user",    "This is the start of a new experiment.",        "off"]]
   },
   "cond_array":[["Name",
@@ -26,7 +26,7 @@
   "Conditions":[["Name","Notes","Stimuli 1","Procedure 1"],
     ["New Experiment","You can put more detailed notes in this field","Stimuli_1","Procedure_1"]],
   "all_stims":{
-    "Stimuli":[
+    "Stimuli_1":[
       ["Cue","Answer"],
       ["A","Apple"],
       ["B","Banana"]

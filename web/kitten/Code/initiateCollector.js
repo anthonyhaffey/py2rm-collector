@@ -26,19 +26,31 @@ dev_obj.version = "kitten"; //this needs to be updated when moving to cat, but p
 dev_obj.published_links = [];
 
 
-function collectorPapaParsed(preparsed){
-
-	post_parsed = Papa.parse(Papa.unparse(preparsed),{
-		beforeFirstChunk: function(chunk) {
-			var rows = chunk.split( /\r\n|\r|\n/ );
-			var headings = rows[0].toLowerCase();
-			rows[0] = headings;
-			return rows.join("\r\n");
-		},
-		header:true,
-		skipEmptyLines:true
-	}).data;
-
+function collectorPapaParsed(content){
+  //check if parsed stylesheet
+  if(typeof(content) == "object"){
+    post_parsed = Papa.parse(Papa.unparse(content),{
+  		beforeFirstChunk: function(chunk) {
+  			var rows = chunk.split( /\r\n|\r|\n/ );
+  			var headings = rows[0].toLowerCase();
+  			rows[0] = headings;
+  			return rows.join("\r\n");
+  		},
+  		header:true,
+  		skipEmptyLines:true
+  	}).data;
+  } else {
+    post_parsed = Papa.parse(content,{
+  		beforeFirstChunk: function(chunk) {
+  			var rows = chunk.split( /\r\n|\r|\n/ );
+  			var headings = rows[0].toLowerCase();
+  			rows[0] = headings;
+  			return rows.join("\r\n");
+  		},
+  		header:true,
+  		skipEmptyLines:true
+  	}).data;
+  }
 	return post_parsed;
 }
 function complete_csv(this_csv){

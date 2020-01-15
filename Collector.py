@@ -62,6 +62,12 @@ def create_space(repository_name,
     settings.close()
 
 files_folder = os.listdir()
+
+
+@eel.expose
+def delete_exp(exp_name):
+    os.remove("web/User/Experiments/" + exp_name + ".json")# delete file
+
 @eel.expose
 def startup():
     if "settings.json" in files_folder:
