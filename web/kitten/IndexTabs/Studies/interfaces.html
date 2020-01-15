@@ -15,8 +15,8 @@
 
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>
- 		
-		Kitten release (2019) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)		
+
+		Kitten release (2019) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)
 */
 -->
 <style>
@@ -26,10 +26,10 @@
 </style>
 
 <span id="hide_show_table_span"></span>
-    
+
 <script>
 hide_show_table_span_html = '';
-var page_parts = ["Presentation","Conditions","Procedure","Stimuli","TrialTypes"];
+var page_parts = ["Conditions","Procedure","Stimuli","TrialTypes"];
 page_parts.forEach(function(page_part){
 	hide_show_table_span_html += "<button class='btn btn-primary collectorSwitch display_button' type='button'>"+page_part+"</button>";
 	$("#"+page_part).on('show hide', function() {

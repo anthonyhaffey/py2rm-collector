@@ -40,9 +40,11 @@ window.onbeforeunload = function() {
 </script>
 
 <nav class="navbar navbar-primary bg-white fixed-top fixed-top-2" id="sim_navbar">
-	<div id="load_experiment_div"></div>
+	<div id="load_experiment_html"></div>
+  <div id="interfaces_html"></div>
   <script>
-  $("#load_experiment_div").load("IndexTabs/Studies/ExperimentEditor/LoadSqlExperiment.html");
+  $("#load_experiment_html").load("IndexTabs/Studies/ExperimentEditor/LoadSqlExperiment.html");
+  $("#interfaces_html").load("IndexTabs/Studies/interfaces.html");
   </script>
 </nav>
 
