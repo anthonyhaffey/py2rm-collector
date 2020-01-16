@@ -76,11 +76,17 @@ def startup():
 
 @eel.expose
 def pull_open_collector(username,
-                       organisation,
-                       repository):
+                        password,
+                        organisation,
+                        repository):
     if(organisation == ""):
         organisation = username
     try:
+        push_collector(username,
+                       password,
+                       organisation,
+                       repository,
+                       "backup before updating from open-collector repository")
         os.system("git remote set-url --push origin https://github.com/" + organisation +"/" + repository + ".git")
         os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
         os.system("git fetch origin master")

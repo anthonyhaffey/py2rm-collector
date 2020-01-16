@@ -169,7 +169,16 @@ $("#github_logo").on("click",function(){
 								'<script>' +
 									'if(typeof(master_json.github.organisation) == "undefined"){' +
 										'master_json.github.organisation = ""' +
-									'}' +
+									'};' +
+									'$("#github_username").on("keyup",function(){' +
+										'master_json.github.username = $("#github_username").val();' +
+									'});' +
+									'$("#github_organisation").on("keyup",function(){' +
+										'master_json.github.organisation = $("#github_organisation").val();' +
+									'});' +
+									'$("#github_repository").on("keyup",function(){' +
+										'master_json.github.repository = $("#github_repository").val();' +
+									'});' +
 									'$("#github_username").val(master_json.github.username);' +
 									'$("#github_organisation").val(master_json.github.organisation);' +
 									'$("#github_repository").val(master_json.github.repository);' +
@@ -183,21 +192,21 @@ $("#github_logo").on("click",function(){
             var repository   = $("#github_repository").val();
             var password     = $("#github_password").val();
             var username     = $("#github_username").val();
-            
+
             bootbox.prompt("How would you describe this update?",function(update_message){
               if(update_message){
                 eel.push_collector(username,
                                    password,
                                    organisation,
                                    repository,
-                                   update_message);              
+                                   update_message);
               } else {
                 eel.push_collector($("#github_username").val(),
                                    $("#github_password").val(),
                                    $("#github_organisation").val(),
                                    $("#github_repository").val(),
-                                   "No message");              
-              }            
+                                   "No message");
+              }
             });
 
             }
@@ -213,8 +222,8 @@ $("#github_logo").on("click",function(){
             if(organisation == ""){
               organisation = username;
             }
-            window.open('https://www.github.com/' + 
-                        organisation + 
+            window.open('https://www.github.com/' +
+                        organisation +
                         '/' +
                         repository,'_blank');
           }
@@ -224,14 +233,16 @@ $("#github_logo").on("click",function(){
           className: "btn-danger",
           callback:function(){
             var username     = $("#github_username").val();
+            var password     = $("#github_password").val();
             var organisation = $("#github_organisation").val();
             var repository   = $("#github_repository").val();
 
             bootbox.confirm("Are you sure you want to update Collector?",function(result){
               if(result){
                 eel.pull_open_collector(username,
-                                       organisation,
-                                       repository);
+																				password,
+                                        organisation,
+                                        repository);
               }
             });
           }

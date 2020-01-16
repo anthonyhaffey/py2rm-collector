@@ -25,7 +25,7 @@ if(typeof(Trial) !== "undefined"){
 		return (new Date()).getTime() - parent.parent.exp_json.this_trial["post_"+Trial.post_no+"_trial_start_ms"];
 	}
 
-	
+
 	Trial.set_timer = function(this_function,duration){
 		parent.parent.exp_json.time_outs.push({
 			trial_no : Trial.trial_no,
@@ -45,7 +45,7 @@ if(typeof(Trial) !== "undefined"){
   }
   Trial.submit = function(){
     parent.parent.exp_json.inputs = jQuery( "[name]" );
-    parent.parent.exp_json.finish_trial();
+    parent.parent.Study.finish_trial();
   }
 }
 
