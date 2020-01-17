@@ -18,11 +18,6 @@ def create_space(repository_name,
     #os.mkdir("web/" + repository_name)
     os.chdir(orig_dir + "/web")
 
-    #root = tk.Tk()
-    #root.withdraw()
-    #file_path = filedialog.askdirectory(title="Where shall we install Collector?")
-    #print(file_path);
-    #os.chdir(file_path)
     os.system("git clone https://github.com/open-collector/open-collector " + repository_name)
 
 

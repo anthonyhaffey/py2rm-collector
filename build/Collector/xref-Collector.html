@@ -854,7 +854,7 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#Collector.py">Collector.py</a>
- &#8226;   <a href="#copy">copy</a>
+ &#8226;   <a href="#pickle">pickle</a>
  &#8226;   <a href="#setuptools.sandbox">setuptools.sandbox</a>
  &#8226;   <a href="#xml.sax">xml.sax</a>
 
@@ -4906,8 +4906,8 @@ imported by:
   <a target="code" href="///C:/Users/Anthony%20Haffey/AppData/Local/Programs/Python/Python36/lib/copy.py" type="text/plain"><tt>copy</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#'org.python'">'org.python'</a>
- &#8226;   <a href="#copyreg">copyreg</a>
+    <a href="#copyreg">copyreg</a>
+ &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#types">types</a>
  &#8226;   <a href="#weakref">weakref</a>
 
@@ -12286,7 +12286,6 @@ imports:
     <a href="#__future__">__future__</a>
  &#8226;   <a href="#gevent">gevent</a>
  &#8226;   <a href="#gevent.libuv._corecffi">gevent.libuv._corecffi</a>
- &#8226;   <a href="#gevent.libuv.watcher">gevent.libuv.watcher</a>
 
   </div>
   <div class="import">
@@ -12386,7 +12385,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#gevent">gevent</a>
- &#8226;   <a href="#gevent.libuv">gevent.libuv</a>
  &#8226;   <a href="#gevent.libuv.loop">gevent.libuv.loop</a>
 
   </div>
@@ -13093,7 +13091,6 @@ imports:
  &#8226;   <a href="#gevent.testing.sysinfo">gevent.testing.sysinfo</a>
  &#8226;   <a href="#gevent.testing.testcase">gevent.testing.testcase</a>
  &#8226;   <a href="#gevent.testing.testrunner">gevent.testing.testrunner</a>
- &#8226;   <a href="#gevent.testing.util">gevent.testing.util</a>
  &#8226;   <a href="#mock">mock</a>
  &#8226;   <a href="#unittest">unittest</a>
  &#8226;   <a href="#unittest.mock">unittest.mock</a>
@@ -13643,8 +13640,7 @@ imports:
   </div>
   <div class="import">
 imported by:
-    <a href="#gevent.testing">gevent.testing</a>
- &#8226;   <a href="#gevent.testing.testrunner">gevent.testing.testrunner</a>
+    <a href="#gevent.testing.testrunner">gevent.testing.testrunner</a>
  &#8226;   <a href="#gevent.tests.test___example_servers">gevent.tests.test___example_servers</a>
  &#8226;   <a href="#gevent.tests.test___monkey_patching">gevent.tests.test___monkey_patching</a>
  &#8226;   <a href="#gevent.tests.test__doctests">gevent.tests.test__doctests</a>
@@ -13668,7 +13664,6 @@ imported by:
 <span class="moduletype">Package</span>  <div class="import">
 imports:
     <a href="#gevent">gevent</a>
- &#8226;   <a href="#gevent.tests.lock_tests">gevent.tests.lock_tests</a>
 
   </div>
   <div class="import">
@@ -13987,7 +13982,6 @@ imports:
   <div class="import">
 imported by:
     <a href="#gevent">gevent</a>
- &#8226;   <a href="#gevent.tests">gevent.tests</a>
  &#8226;   <a href="#gevent.tests.test__threading_2">gevent.tests.test__threading_2</a>
 
   </div>
@@ -25264,7 +25258,7 @@ imported by:
 <span class="moduletype">MissingModule</span>  <div class="import">
 imported by:
     <a href="#Collector.py">Collector.py</a>
- &#8226;   <a href="#pickle">pickle</a>
+ &#8226;   <a href="#copy">copy</a>
 
   </div>
 
@@ -25645,7 +25639,8 @@ imported by:
   <a target="code" href="///C:/Users/Anthony%20Haffey/AppData/Local/Programs/Python/Python36/lib/pickle.py" type="text/plain"><tt>pickle</tt></a>
 <span class="moduletype">SourceModule</span>  <div class="import">
 imports:
-    <a href="#_compat_pickle">_compat_pickle</a>
+    <a href="#'org.python'">'org.python'</a>
+ &#8226;   <a href="#_compat_pickle">_compat_pickle</a>
  &#8226;   <a href="#_pickle">_pickle</a>
  &#8226;   <a href="#argparse">argparse</a>
  &#8226;   <a href="#codecs">codecs</a>
@@ -25654,7 +25649,6 @@ imports:
  &#8226;   <a href="#functools">functools</a>
  &#8226;   <a href="#io">io</a>
  &#8226;   <a href="#itertools">itertools</a>
- &#8226;   <a href="#org">org</a>
  &#8226;   <a href="#pprint">pprint</a>
  &#8226;   <a href="#re">re</a>
  &#8226;   <a href="#struct">struct</a>
@@ -30282,6 +30276,12 @@ imported by:
   <a name="test"></a>
   <a target="code" href="///C:/Users/Anthony%20Haffey/AppData/Local/Programs/Python/Python36/lib/test/__init__.py" type="text/plain"><tt>test</tt></a>
 <span class="moduletype">Package</span>  <div class="import">
+imports:
+    <a href="#test.support">test.support</a>
+ &#8226;   <a href="#test.test_support">test.test_support</a>
+
+  </div>
+  <div class="import">
 imported by:
     <a href="#gevent.tests.lock_tests">gevent.tests.lock_tests</a>
  &#8226;   <a href="#test.support">test.support</a>
@@ -30356,6 +30356,7 @@ imports:
 imported by:
     <a href="#gevent.tests.lock_tests">gevent.tests.lock_tests</a>
  &#8226;   <a href="#gevent.tests.test__threading_2">gevent.tests.test__threading_2</a>
+ &#8226;   <a href="#test">test</a>
  &#8226;   <a href="#test.test_support">test.test_support</a>
 
   </div>
@@ -30385,6 +30386,7 @@ imports:
 imported by:
     <a href="#gevent.tests.lock_tests">gevent.tests.lock_tests</a>
  &#8226;   <a href="#gevent.tests.test__threading_2">gevent.tests.test__threading_2</a>
+ &#8226;   <a href="#test">test</a>
 
   </div>
 

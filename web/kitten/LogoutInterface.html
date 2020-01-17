@@ -132,10 +132,7 @@ $("#github_logo").on("click",function(){
 		bootbox.alert("You need to identify or create an online git repository  of Collector to run this online");
 	} else {
 		master_json.exp_mgmt.exp_condition = $("#select_condition").val();
-		// put in code from collector install here
-		//bootbox.dialog("<div id='github_dialog'></div>");
-		//$("#github_dialog").load('IndexTabs/Studies/SheetEditor/GithubDialog.html');
-
+		
 		var dialog = bootbox.dialog({
 			title: 'Synch with github repository',
 			message: '<div class="jumbotron">' +

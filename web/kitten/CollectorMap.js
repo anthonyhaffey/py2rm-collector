@@ -11,16 +11,14 @@ window.Papa          || document.write('<script src="https://cdnjs.cloudflare.co
 
 // Collector specific
 
-window.Handsontable || document.write('<link rel="stylesheet" href="https://anthonyhaffey.github.io/my-collector/kitten/IndexTabs/Studies/handsontables/handsontables.full.css">' +
-'<script type="text/javascript" charset="utf-8" src="https://anthonyhaffey.github.io/my-collector/kitten/IndexTabs/Studies/handsontables/handsontables.full.js">' + 
-'<\/script><script type="text/javascript" charset="utf-8" src="https://anthonyhaffey.github.io/my-collector/kitten/IndexTabs/Studies/HandsontableFunctions.js"><\/script>');
+window.Handsontable || document.write('<link rel="stylesheet" href="https://anthonyhaffey.github.io/my-collector/kitten/Studies/handsontables/handsontables.full.css">' +
+'<script type="text/javascript" charset="utf-8" src="https://anthonyhaffey.github.io/my-collector/kitten/Studies/handsontables/handsontables.full.js">' + 
+'<\/script><script type="text/javascript" charset="utf-8" src="https://anthonyhaffey.github.io/my-collector/kitten/Studies/HandsontableFunctions.js"><\/script>');
 
 window.clean_obj_keys || document.write('<script src="https://anthonyhaffey.github.io/my-collector/kitten/jsFunctions.js"><\/script>');
 
 
-
 var isolation_map = {
-  //IndexTabs
   Default:{
     DefaultSurveys:{
       'autism_quotient.csv'     : 'file',
@@ -34,31 +32,29 @@ var isolation_map = {
     "default_experiment.json" : "file",
       //stuff here
   },
-  IndexTabs:{
-    Data:{
-      "ListData.php" : "file",
-    },  
+  Data:{
+    "ListData.php" : "file",
+  },  
 
-    Help:{
-      "CondHelp.json" : "file",
-      "GrapHelp.json" : "file",
-      "MainHelp.json" : "file",
-      "ProcHelp.json" : "file",
-      "SurvHelp.json" : "file",
+  Help:{
+    "CondHelp.json" : "file",
+    "GrapHelp.json" : "file",
+    "MainHelp.json" : "file",
+    "ProcHelp.json" : "file",
+    "SurvHelp.json" : "file",
+  },
+  Studies:{
+    SheetEditor:{        
+      "SheetEditor.html" : "file"
     },
-    Studies:{
-      SheetEditor:{        
-        "SheetEditor.html" : "file"
-      },
-      TrialTypeEditor:{
-        "TrialTypeEditor.html" : "file",
-        "Graphic.html"         : "file",
-      }
-    },
-    Surveys : {
-      'Surveys.html'    : 'file',
-      'surveyTypes.csv' : 'file'
+    TrialTypeEditor:{
+      "TrialTypeEditor.html" : "file",
+      "Graphic.html"         : "file",
     }
+  },
+  Surveys : {
+    'Surveys.html'    : 'file',
+    'surveyTypes.csv' : 'file'
   },
   "CollectorMap.js" : "file",
   "jsFunctions.js"  : "file",
