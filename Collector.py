@@ -164,7 +164,6 @@ def update_collector(location,
 
 @eel.expose
 def load_master_json():
-    print("hi")
     #check if the uber mega file exists yet
     try:
         master_json = open("web/User/master.json", "r")
