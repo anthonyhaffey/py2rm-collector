@@ -1,17 +1,6 @@
 import eel
 import os
 import json
-import tkinter as tk
-
-from tkinter import filedialog
-from tkinter import *
-from tkinter.filedialog import askopenfile
-from tkinter.messagebox import showerror
-
-import base64
-import pandas as pd
-import numbers
-import numpy as np
 
 @eel.expose
 def create_space(repository_name,
