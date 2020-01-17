@@ -47,8 +47,8 @@ var isolation_map = {
       "SurvHelp.json" : "file",
     },
     Studies:{
-      ExperimentEditor:{        
-        "ExperimentEditor.html" : "file"
+      SheetEditor:{        
+        "SheetEditor.html" : "file"
       },
       TrialTypeEditor:{
         "TrialTypeEditor.html" : "file",
@@ -62,7 +62,7 @@ var isolation_map = {
   },
   "CollectorMap.js" : "file",
   "jsFunctions.js"  : "file",
-  "libraries.html"  : "file",
+  "Libraries.html"  : "file",
   "RunStudy.html"   : "file"
 }
 

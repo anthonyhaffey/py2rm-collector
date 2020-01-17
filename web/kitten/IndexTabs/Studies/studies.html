@@ -22,7 +22,7 @@
 -->
 
 <!-- Scripts needed for simulator -->
-<link rel="stylesheet" type="text/css" href="IndexTabs/Studies/SimulatorStyle.css" media="screen" />
+<link rel="stylesheet" type="text/css" href="IndexTabs/Studies/StudiesStyle.css" media="screen" />
 <style>
 #authorised_interface{
   position:absolute;
@@ -43,7 +43,7 @@ window.onbeforeunload = function() {
 	<div id="load_experiment_html"></div>
   <div id="interfaces_html"></div>
   <script>
-  $("#load_experiment_html").load("IndexTabs/Studies/ExperimentEditor/LoadSqlExperiment.html");
+  $("#load_experiment_html").load("IndexTabs/Studies/SheetEditor/LoadSqlExperiment.html");
   $("#interfaces_html").load("IndexTabs/Studies/interfaces.html");
   </script>
 </nav>
@@ -53,7 +53,7 @@ window.onbeforeunload = function() {
   <div id="trialtype_editor_div"></div>
 </div>
 <script>
-$("#experiment_editor_div").load(collector_map["ExperimentEditor.html"]);
+$("#experiment_editor_div").load(collector_map["SheetEditor.html"]);
 $("#trialtype_editor_div").load(collector_map["TrialTypeEditor.html"]);
 
 $(".collectorSwitch").on("click",function(){

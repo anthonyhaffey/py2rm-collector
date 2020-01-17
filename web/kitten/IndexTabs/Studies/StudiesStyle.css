@@ -21,54 +21,14 @@
 #exp_data > tbody > tr > td { 
   text-align: center; padding: 15px; 
 }
-#ExperimentContainer:-moz-full-screen {
-  background-color: white;
-}
-#ExperimentContainer:-webkit-full-screen {
-  background-color: white;
-}
-#ExperimentContainer:fullscreen {
-  background-color: white;
-}
-#ExperimentContainer > iframe {
-	background-color: #FFF;
-	height: 100%;	
-}
-#ExperimentContainer, #ExperimentContainer > iframe {
-	width: 1050px;
-	height:100%;
-	margin: 0;
-	padding: 0;
-	display: block;
-	max-width:100%;
-}
 #help_area{
 	!display:none;	
 }
 #logout_table td{
 	padding:2px;
 }
-#Presentation{
-	height: 400px;  
-	width:  100%;
-	max-height:90%;
-	max-width:100%;
-	margin:auto;
-}
-#preview_message{
-	padding:200px;
-	margin:auto;
-}
-#run_stop_buttons{
-	text-align:center;
-	display:none;
-	margin:auto;
-}
 #sim_navbar{
   padding: 0px;
-}
-#simulator_table,#simulator_table tr{
-	width:100%;
 }
 #trialtype_editor_td{
 	vertical-align:top;
@@ -76,10 +36,6 @@
 #trial_type_data > div > div{
   display:none;
 }
-#simulator_table{
-	margin-top: 0px;
-}
-
 
 .account_info {
 	!display:none;

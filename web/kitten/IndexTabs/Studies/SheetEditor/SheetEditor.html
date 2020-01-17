@@ -80,8 +80,8 @@
 	</tr>
 </table>
 
-<script src="IndexTabs/Studies/ExperimentEditor/ExpEditorFunctionsSql.js"></script>
-<script src="IndexTabs/Studies/ExperimentEditor/ExpEditorActionsSql.js"></script>
+<script src="IndexTabs/Studies/SheetEditor/SheetFunctions.js"></script>
+<script src="IndexTabs/Studies/SheetEditor/SheetActions.js"></script>
 
 <script>
 //handsontable_detected = false;  -- not sure what this was doing, but removing it seems to fix some problems
@@ -103,9 +103,9 @@ $(window).bind('keydown', function(event) {
 $("#stim_list_button").on("click",function(){
 
   var web_url = document.URL.split("/");
-      web_url[web_url.length - 1] = "IndexTabs/Studies/ExperimentEditor/stimList.html";
+      web_url[web_url.length - 1] = "IndexTabs/Studies/SheetEditor/StimList.html";
       web_url = web_url.join("/");
-	//var web_url = "../<?= $_SESSION['version'] ?>/IndexTabs/Studies/ExperimentEditor/stimList.php";
+	//var web_url = "../<?= $_SESSION['version'] ?>/IndexTabs/Studies/SheetEditor/stimList.php";
 	window.open(web_url,"stimList",'height=800,width=800');
 });
 

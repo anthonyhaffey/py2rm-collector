@@ -19,7 +19,9 @@
 		Kitten release (2019) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)
 -->
 <script>
-
+////////////////////////////////////////
+// To allow development within gitpod //
+////////////////////////////////////////
 if(typeof(dev_obj) == "undefined"){
   dev_obj = {
     dev_location:"Surveys.html"
@@ -69,9 +71,6 @@ function load_default_surveys(){
 }
 </script>
 
-
-
-
 <style>
 #spreadsheet_preview_tabs{
 	display:none;
@@ -81,7 +80,7 @@ function load_default_surveys(){
 }
 </style>
 
-<nav class="navbar navbar-primary bg-white fixed-top fixed-top-2" id="sim_navbar">
+<nav class="navbar navbar-primary bg-white fixed-top fixed-top-2">
   <table style = "max-width:80%">
     <tr>
       <td>
@@ -124,8 +123,6 @@ function load_default_surveys(){
 ///////////////
 // functions //
 ///////////////
-
-
 var survey_HoT;
 
 function create_survey_HoT(this_survey){
@@ -224,23 +221,11 @@ function list_surveys(){
 	master_json.surveys.user_surveys = typeof(master_json.surveys.user_surveys) == "undefined" ? {} : master_json.surveys.user_surveys;
 	master_json.surveys.default_surveys = clean_obj_keys(master_json.surveys.default_surveys);
 
-  
-
 	var def_survey_list  = Object.keys(master_json.surveys.default_surveys).sort();
 	var user_survey_list = Object.keys(master_json.surveys.user_surveys).sort();
 
-
   load_default_surveys();
-  /*
-  def_survey_list.forEach(function(survey){
-    $("#survey_select").append($("<option>",{
-			text:survey,
-			value:"default|" + survey,
-			class:"bg-info text-white"
-		}));
-	});
-  */
-	user_survey_list.forEach(function(user_survey){
+  user_survey_list.forEach(function(user_survey){
     $("#survey_select").append($("<option>",{
 			text:user_survey,
 			value:"user|" + user_survey,

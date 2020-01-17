@@ -341,15 +341,15 @@ function update_handsontables(){
 	createExpEditorHoT(this_exp.all_procs[proc_file], "Procedure", proc_file);
 	createExpEditorHoT(this_exp.cond_array, "Conditions","Conditions.csv");
 
-	$("#run_stop_buttons").show();
 	master_json.exp_mgmt.any_loaded = true;
 	$("#dropbox_inputs").show();
 }
 function update_master_json(){
-	dbx_obj.new_upload({path:"/master.json",contents:JSON.stringify(master_json),mode:'overwrite'},function(result){
-		if($("#simulator_table").is(":hidden")){
-			$("#option_Edit").click();
-		}
+	dbx_obj.new_upload({path:"/master.json",
+                      contents:JSON.stringify(master_json),
+                      mode:'overwrite'},
+                      function(result){
+		
 	},function(error){
 		bootbox.alert(error.error + "<br> Perhaps wait a bit and save again?");
 	},

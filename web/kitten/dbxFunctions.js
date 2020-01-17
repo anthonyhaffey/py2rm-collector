@@ -93,7 +93,6 @@ function load_master_json(link_created){
     $("#public_key").val(master_json.keys.public_key);
     $("#private_key").val(master_json.keys.encrypted_private_key);
 
-		$("#option_Edit").click();
 		$("#startup_btn").fadeIn(500);
 		$("#startup_btn").on("click",function(){
 			startup_dialog.modal("hide");

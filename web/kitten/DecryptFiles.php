@@ -20,7 +20,7 @@
 */
 
 require 'Code/initiateCollector.php';
-require 'libraries.html';
+require 'Libraries.html';
 
 ////////////////////////////////////////////////////////////////////
 // Do not implement below at the moment, it breaks the decryption //

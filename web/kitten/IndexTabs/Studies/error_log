@@ -1,1 +1,0 @@
-[25-Jun-2019 17:17:41 UTC] PHP Warning:  mysqli_fetch_assoc() expects parameter 1 to be mysqli_result, boolean given in /home/ocollector/public_html/kitten/IndexTabs/Simulator/AjaxMySQL.php on line 71

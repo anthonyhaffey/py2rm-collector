@@ -144,12 +144,6 @@ function remove_from_list(experiment){
 	}
 }
 
-function show_run_stop_buttons(){
-  if(developer_obj.simulator_on_off == "on"){
-    $("#run_stop_buttons").show();
-  }
-}
-
 function stim_proc_selection(stim_proc,sheet_selected){
 	var experiment = master_json.exp_mgmt.experiment;
 	var this_exp   = master_json.exp_mgmt.experiments[experiment];

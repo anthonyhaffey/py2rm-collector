@@ -1051,7 +1051,6 @@ function write_trial_iframe(index){
 	if(typeof(exp_json.parsed_proc[index]) == "undefined"){
 		return null;
 	}
-	$("#preview_message").html("");
 	$("#experiment_div").append("<iframe class='trial_iframe' scrolling='no' frameBorder='0' id='trial"+index+"'></iframe>");
 	this_proc = exp_json.parsed_proc[index];
 
