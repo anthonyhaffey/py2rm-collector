@@ -21,7 +21,7 @@
 */
 
 require_once "cleanRequests.php";
-require_once "Code/initiateCollector.php";
+require_once "Code/InitiateCollector.php";
 require_once "../../sqlConnect.php";
 require_once "../../oCollector_captcha_keys.php";
 

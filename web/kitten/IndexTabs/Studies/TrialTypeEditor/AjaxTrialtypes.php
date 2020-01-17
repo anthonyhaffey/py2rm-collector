@@ -20,7 +20,7 @@
 */
 
 $trialtypes_folder = "../../../../../trialtypes";
-require_once '../../../Code/initiateCollector.php';
+require_once '../../../Code/InitiateCollector.php';
 require_once "../../../../../sqlConnect.php";
 
 $user_email = $_SESSION['user_email'];

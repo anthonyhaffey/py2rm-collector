@@ -21,7 +21,7 @@
 
 require_once ("cleanRequests.php");
 
-require 'Code/initiateCollector.php';
+require 'Code/InitiateCollector.php';
 require_once "../../sqlConnect.php";
 
 
