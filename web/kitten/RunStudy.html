@@ -648,39 +648,52 @@ function insert_start(){
 }
 
 function parse_sheets(){
-  var proc_sheet_name = exp_json.this_condition.procedure;
-  var stim_sheet_name = exp_json.this_condition.stimuli;
+  var proc_sheet_name = exp_json.this_condition.procedure
+                                .toLowerCase()
+                                .replace(".csv","") + ".csv";
+  var stim_sheet_name = exp_json.this_condition.stimuli
+                                .toLowerCase()
+                                .replace(".csv","") + ".csv"
   proc_stim_loaded = [];
-  if(proc_sheet_name.indexOf("/") !== -1){          // then we assume it's a csv file
-    $.get(proc_sheet_name,function(proc_sheet_content){
-      exp_json.parsed_proc = collectorPapaParsed(proc_sheet_content);
+  
+  switch(Study.get_vars.platform){
+    case "localhost":
+    case "preview":
+    case "github":
+      var proc_url = "../User/Experiments/" + 
+                     Study.get_vars.location +
+                     "/" + proc_sheet_name;
+      $.get(proc_url,function(proc_sheet_content){
+        exp_json.parsed_proc = collectorPapaParsed(proc_sheet_content);
+        proc_stim_loaded[1] = "procedure";
+        if(proc_stim_loaded.join("-") == "stimuli-procedure"){
+          Study.activate_pipe();
+        }
+      });
+      var stim_url = "../User/Experiments/"  + 
+                     Study.get_vars.location +
+                     "/" +  stim_sheet_name;
+      $.get(stim_url,function(stim_sheet_content){
+        exp_json.parsed_stim = [null,null].concat(collectorPapaParsed(stim_sheet_content)); 
+        proc_stim_loaded[0] = "stimuli";
+        if(proc_stim_loaded.join("-") == "stimuli-procedure"){
+          Study.activate_pipe();
+        }
+      });
+      break;
+    case "dropbox":
+    case "server":
       proc_stim_loaded[1] = "procedure";
+      exp_json.parsed_proc = collectorPapaParsed(exp_json.all_procs[proc_sheet_name]);
       if(proc_stim_loaded.join("-") == "stimuli-procedure"){
         Study.activate_pipe();
       }
-    });
-  } else {
-    proc_stim_loaded[1] = "procedure";
-    exp_json.parsed_proc = collectorPapaParsed(exp_json.all_procs[proc_sheet_name]);
-    if(proc_stim_loaded.join("-") == "stimuli-procedure"){
-      Study.activate_pipe();
-    }
-  }
-
-  if(stim_sheet_name.indexOf("/") !== -1){          // then we assume it's a csv file
-    $.get(stim_sheet_name,function(stim_sheet_content){
-      exp_json.parsed_stim = [null,null].concat(collectorPapaParsed(stim_sheet_content)); 
+      exp_json.parsed_stim = collectorPapaParsed(exp_json.all_stims[stim_sheet_name]);
       proc_stim_loaded[0] = "stimuli";
       if(proc_stim_loaded.join("-") == "stimuli-procedure"){
         Study.activate_pipe();
-      }
-    });
-  } else {
-    exp_json.parsed_stim = collectorPapaParsed(exp_json.all_stims[stim_sheet_name]);
-    proc_stim_loaded[0] = "stimuli";
-    if(proc_stim_loaded.join("-") == "stimuli-procedure"){
-      Study.activate_pipe();
-    }
+      }      
+      break;
   }
 }
 
@@ -731,7 +744,7 @@ function parse_current_proc(){
 
   	for(var j = 0; j < this_proc.length; j++){
   		var row = this_proc[j];
-  		if(row.item.indexOf(":") == -1 && row.item.indexOf(",") == -1){
+  		if(row.item.indexOf(" to ") == -1 && row.item.indexOf(",") == -1){
   			filled_proc.push(row);
   		} else {
   			// split by commas
@@ -739,12 +752,12 @@ function parse_current_proc(){
   			var items_array = row.item.split(",");
   			var complete_items_array = [];
   			items_array.forEach(function(item){
-  				if(item.indexOf(":") == -1){
+  				if(item.indexOf(" to ") == -1){
   					complete_items_array.push(item);
   				} else {
   					// split by colons
   					///////////////////
-  					item_start_end = item.split(":");
+  					item_start_end = item.split(" to ");
   					if(item_start_end.length > 2){
   						bootbox.alert("There is a problem with the procedure sheet - see the row in which the item column value is " +row.item + ", there is more than 1 ':' which is not allowed. If you are not the researcher, can you please send this message to them.");
   					}

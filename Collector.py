@@ -121,6 +121,18 @@ def save_experiment(experiment_name,experiment_json):
     if os.path.isdir("web/User/Experiments/" + experiment_name) == False:
         os.mkdir("web/User/Experiments/" + experiment_name)
 
+    python_message = python_message + "...<br> saving <b>conditions.csv</b>"
+    eel.python_bootbox(python_message)
+    try:
+        this_cond_file = open("web/User/Experiments/" + experiment_name + "/conditions.csv", "w", newline='')
+        this_cond_file.write(experiment_json["python_conditions"])
+    except:
+        errors += "...<br><span class='text-danger'>Error when trying to save <b>conditions.csv</b> - is the file open on your computer?</span>"
+        eel.python_bootbox(python_message)
+    finally:
+        print("moving on")
+
+
     for this_proc in experiment_json["python_procs"].keys():
         python_message = python_message + "...<br> saving the procedure <b>" + this_proc + "</b>"
         eel.python_bootbox(python_message)

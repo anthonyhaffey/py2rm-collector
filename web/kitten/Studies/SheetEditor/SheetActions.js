@@ -222,13 +222,12 @@ $("#run_btn").on("click",function(){
   if(typeof(master_json.data.save_script) == "undefined" ||
      //test here for whether there is a github repository linked
      master_json.data.save_script == ""){
-     var no_script_warning = '<h2 class="text-danger">You have not set up where the data will be saved online yet. Whilst your experiment will work locally, it WILL NOT work online. <span onclick="online_settings()"><em><u>Click here</u></em></span> to review your online settings.</h2>';
+     var no_script_warning = '<h2 class="text-danger">You have not set up where the data will be saved online yet. Whilst your experiment will work locally, it WILL NOT work online. <span onclick="$(\'#github_logo\').click()"><em><u>Click here</u></em></span> to review your online settings.</h2>';
   } else {
     var no_script_warning = '';
   }
 	var select_html = '<select id="select_condition" class="custom-select">';
-	clean_conditions();
-  exp_json.conditions.forEach(function(condition){
+	exp_json.conditions.forEach(function(condition){
 		select_html += "<option>" + condition.name + "</option>";
 	});
 	select_html += "</select>";
@@ -305,6 +304,7 @@ $("#save_btn").on("click", function(){
 
 	//parse procs for survey saving next
 	if($("#experiment_list").val() !== null) {
+    clean_conditions();
  		//   if(typeof(this_exp.parsed_procs) == "undefined"){
     this_exp.parsed_procs = {};
     var procs = Object.keys(this_exp.all_procs);
@@ -429,6 +429,7 @@ $("#save_btn").on("click", function(){
     if(dev_obj.context == "localhost"){
       python_exp = this_exp;
       python_exp.python_procs = {};
+      python_exp.python_conditions = Papa.unparse(this_exp.cond_array);
       Object.keys(this_exp.all_procs).forEach(function(this_proc){
         python_exp.python_procs[this_proc] = Papa.unparse(this_exp.all_procs[this_proc]);
       });
