@@ -1,2 +1,3 @@
-#/web/Local #need this for the user to update their experiments
+#Collector.exe
+#/venv
 /web/User/Data

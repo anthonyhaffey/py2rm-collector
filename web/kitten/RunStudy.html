@@ -1023,6 +1023,14 @@ function start_restart(){
 function start_study(){
   switch(Study.get_vars.platform){
     case "localhost":
+      //expose...?
+      eel.expose(python_gives_exp);
+      function python_gives_exp(result){
+        exp_json = result;
+        Study.activate_pipe();
+      }
+      eel.ask_python_exp(Study.get_vars.location);
+      break;
     case "github":
     case "preview":
       $.get("../User/Experiments/" + Study.get_vars.location + ".json",function(result){

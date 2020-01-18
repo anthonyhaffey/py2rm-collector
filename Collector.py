@@ -3,6 +3,13 @@ import os
 import json
 
 @eel.expose
+def ask_python_exp(exp_name):
+    experiment_file = open("web/User/Experiments/" + exp_name + ".json", "r")
+    experiment_file  = experiment_file.read()
+    experiment_json = json.loads(experiment_file)
+    eel.python_gives_exp(experiment_json)
+
+@eel.expose
 def create_space(repository_name,
                  github_organisation,
                  github_username,
