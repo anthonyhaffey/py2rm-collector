@@ -10,60 +10,8 @@ def ask_python_exp(exp_name):
     eel.python_gives_exp(experiment_json)
 
 @eel.expose
-def create_space(repository_name,
-                 github_organisation,
-                 github_username,
-                 github_password):
-    print(repository_name)
-    print(github_username)
-    if github_organisation != "":
-        repository_dir = github_organisation + "/" + repository_name
-    else:
-        repository_dir = repository_name
-
-    orig_dir = os.getcwd();
-    #os.mkdir("web/" + repository_name)
-    os.chdir(orig_dir + "/web")
-
-    os.system("git clone https://github.com/open-collector/open-collector " + repository_name)
-
-
-    print("You now have a working version of Collector!")
-    print("repository_name")
-    print(repository_name)
-    os.chdir(repository_name)
-    os.system("hub create " + repository_dir)
-    print("git push https://" + github_username + ":" + github_password + "@github.com/" + repository_dir + ".git")
-    os.system("git push https://" + github_username + ":" + github_password + "@github.com/" + repository_dir + ".git")
-    eel.python_message("Succesfully updated online version of collector!")
-
-    os.chdir(orig_dir)
-    settings = open("settings.json", "r+")
-    read_settings = json.loads(settings.read())
-    read_settings[repository_name] = {
-        "online": "true",
-        "organisation": github_organisation,
-        "repository": repository_name,
-        "username": github_username
-    }
-    settings.close()
-
-    settings = open("settings.json", "r+")
-    settings.write(json.dumps(read_settings))
-    settings.close()
-
-files_folder = os.listdir()
-
-
-@eel.expose
 def delete_exp(exp_name):
     os.remove("web/User/Experiments/" + exp_name + ".json")# delete file
-
-@eel.expose
-def startup():
-    if "settings.json" in files_folder:
-        settings = open("settings.json","r")
-        eel.load_settings(settings.read())
 
 @eel.expose
 def pull_open_collector(username,
@@ -79,15 +27,18 @@ def pull_open_collector(username,
                        repository,
                        "backup before updating from open-collector repository")
         os.system("git remote set-url --push origin https://github.com/" + organisation +"/" + repository + ".git")
-        os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
-        os.system("git fetch origin master")
-        os.system("git merge -X theirs origin/master --allow-unrelated-histories -m'update from open-collector'")
+        pull_open_collector_only()
+
     except:
         print("Something went wrong")
     finally:
         print("Attempt to update finished")
         #should trigger restart here
 
+def pull_open_collector_only():
+    os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
+    os.system("git fetch origin master")
+    os.system("git merge -X theirs origin/master --allow-unrelated-histories -m'update from open-collector'")
 
 @eel.expose
 def push_collector(username,
@@ -199,6 +150,19 @@ def save_master_json(master_json):
         os.mkdir("web/User")
     master_file = open("web/User/master.json", "w")
     master_file.write(json.dumps(master_json))
+
+####################
+# Start Collector ##
+####################
+
+if os.path.isdir("web") == False:
+
+    # more code here
+    # check if github is installed
+
+    pull_open_collector_only()
+
+
 
 eel.init('web') #allowed_extensions=[".js",".html"]
 eel.start('kitten/index.html')
