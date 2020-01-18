@@ -106,7 +106,7 @@ def save_data(experiment_name,participant_code,responses):
 
 @eel.expose
 def save_experiment(experiment_name,experiment_json):
-    errors = 0
+    errors = ""
     print("trying to save experiment")
     if os.path.isdir("web/User/Experiments") == False:
         os.mkdir("web/User/Experiments")
@@ -124,37 +124,38 @@ def save_experiment(experiment_name,experiment_json):
     for this_proc in experiment_json["python_procs"].keys():
         python_message = python_message + "...<br> saving the procedure <b>" + this_proc + "</b>"
         eel.python_bootbox(python_message)
-        print (this_proc)
+        print(this_proc)
         try:
-            this_proc_file = open("web/User/Experiments/" + experiment_name + "/" + this_proc, "w")
+            this_proc_file = open("web/User/Experiments/" + experiment_name + "/" + this_proc, "w", newline='')
             this_proc_file.write(experiment_json["python_procs"][this_proc])
         except:
-            print("error here");
-            errors = errors + 1
-            python_message += "...<br><span class='text-danger'>Error when trying to save <b>" + \
+            errors += "...<br><span class='text-danger'>Error when trying to save <b>" + \
                               this_proc + \
                               "</b> - is the file open on your computer?</span>"
             eel.python_bootbox(python_message)
         finally:
             print("moving on")
-    if errors == 0:
+
+    for this_stim in experiment_json["python_stims"].keys():
+        python_message = python_message + "...<br> saving the stimuli <b>" + this_stim + "</b>"
+        eel.python_bootbox(python_message)
+        print(this_stim)
+        try:
+            this_stim_file = open("web/User/Experiments/" + experiment_name + "/" + this_stim, "w", newline='')
+            this_stim_file.write(experiment_json["python_stims"][this_stim])
+        except:
+            print("error here");
+            errors += "...<br><span class='text-danger'>Error when trying to save <b>" + \
+                              this_stim + \
+                              "</b> - is the file open on your computer?</span>"
+            eel.python_bootbox(python_message)
+        finally:
+            print("moving on")
+
+    if errors == "":
         eel.python_hide_bb()
-
-    '''
-    #implement messaging from python to Collector
-    python_message = "Experiment saved"
-    eel.python_bootbox(python_message)
-
-    print(experiment_json)
-    print(experiment_json['all_procs'])
-
-    for sheetname in vars(experiment_json['all_procs']):
-        print(sheetname)
-
-    #save the individual procedure and stimuli sheets");
-
-    eel.python_hide_bb()
-    '''
+    else:
+        eel.python_bootbox(python_message + errors)
 
 @eel.expose
 def save_master_json(master_json):

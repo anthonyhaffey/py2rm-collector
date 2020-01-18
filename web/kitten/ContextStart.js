@@ -17,7 +17,9 @@ function python_bootbox(message){
 
 eel.expose(python_hide_bb);
 function python_hide_bb(){
-  python_dialog.modal("hide");
+  setTimeout(function(){
+    python_dialog.modal("hide");
+  },1000);
 }
 
 eel.expose(load_master_json);
