@@ -93,6 +93,7 @@ function load_default_surveys(){
       </td>
       <td>
         <button id='save_survey_btn' class='btn btn-primary'>Save</button>
+        <button id='rename_survey_btn' class='btn btn-primary'>Rename</button>
         <button id='delete_survey_btn' class='btn btn-primary'>Delete</button>
       </td>
       <td id="spreadsheet_preview_tabs">
@@ -152,10 +153,7 @@ function create_survey_HoT(this_survey){
 			helperActivate(column, thisCellValue,"survey");
 		},
 		afterChange: function(){
-      if(typeof(survey_HoT) !== "undefined"){
-				update_user_survey();
-			}
-			var middleColEmpty=0;
+      var middleColEmpty=0;
 			var middleRowEmpty=0;
 			var postEmptyCol=0; //identify if there is a used col after empty one
 			var postEmptyRow=0; // same for rows
@@ -209,12 +207,11 @@ function create_survey_HoT(this_survey){
 }
 
 function list_surveys(){
-	if(typeof(master_json.surveys) == "undefined"){
-		master_json.surveys = {
-			preview         : false,
-			user_surveys    : {}
-		};
-  }
+  master_json.surveys = {
+    preview         : false,
+    user_surveys    : {}
+  };
+
 	master_json.surveys = typeof(master_json.surveys) == "undefined" ? {} : master_json.surveys;
 	master_json.surveys.default_surveys = default_surveys;
 
@@ -277,24 +274,6 @@ function update_exp_survey(survey_name,survey_content){
 	exp_json.surveys[survey_name] = survey_content;
 }
 
-function update_user_survey(){
-  var survey_name    = $("#survey_select").val().split("|")[1];
-  var survey_content = survey_HoT.getData();
-  master_json.surveys.user_surveys[survey_name] = survey_content;
-
-  //update the currently loaded experiment?
-  if(exp_json !== ""){							//check it has this survey in any of the proc sheets
-    parse_sheets("procedure");  		// update exp_json.parsed_procs
-		Object.keys(exp_json.parsed_procs).forEach(function(this_proc){
-			var this_proc_sheet = exp_json.parsed_procs[this_proc];
-			this_proc_sheet.forEach(function(row){
-				if(typeof(row["survey"]) !== "undefined" && row["survey"] == survey_name){
-					update_exp_survey(row["survey"].toLowerCase(),survey_content);
-				}
-			});
-		});
-  }
-}
 
 //////////////////////
 // element triggers //
@@ -358,22 +337,72 @@ $("#pills-preview-tab").on("click",function(){
   preview_survey(this_survey);
 });
 
+$("#rename_survey_btn").on("click",function(){
+  if($("#survey_select").val() !== null){
+    var old_survey_name = $("#survey_select").val().split("|")[1];
+    if(typeof(master_json.surveys.default_surveys[old_survey_name]) !== "undefined"){
+      bootbox.alert("You can't rename default experiments.");
+    } else {
+    switch(dev_obj.context){
+      case "localhost":
+        bootbox.prompt("What would you like to call this survey instead?",function(new_survey_name){
+          eel.expose(update_master_surveys);
+          function update_master_surveys(old_survey_name,
+                                         new_survey_name){
+            master_json.surveys.user_surveys[new_survey_name] = master_json.surveys.user_surveys[old_survey_name];
+            delete(master_json.surveys.user_surveys[old_survey_name]);
+            
+            
+            //code here to remove the option 
+            
+            update_master_json();
+						list_surveys();
+						$("#survey_select").val(new_name);
+            
+            
+          }
+          
+          eel.rename_survey(old_survey_name.toLowerCase()
+                                           .replace(".csv","") + ".csv",
+                            new_survey_name.toLowerCase()
+                                           .replace(".csv","") + ".csv");
+          
+
+        
+        });
+        break;
+      }
+    }
+  }  
+});
+
 $("#save_survey_btn").on("click",function(){
 	if($("#survey_select").val() !== null){
 		var survey_name     = $("#survey_select").val().split("|");
 		var survey_content  = Papa.unparse(survey_HoT.getData());
-		dbx_obj.new_upload({
-			path    : "/surveys/" + survey_name[1].replace(".csv","") + ".csv",
-			contents : survey_content,
-			mode    : "overwrite"
-		},function(){
-			custom_alert("Success!");
-			update_master_json();
-		},function(error){
-			custom_alert("error - check console!");
-			console.dir(error);
-		},
-		"filesUpload");
+    dbx_obj.new_upload({
+      path    : "/surveys/" + survey_name[1].replace(".csv","") + ".csv",
+      contents : survey_content,
+      mode    : "overwrite"
+    },function(){
+      custom_alert("Success!");
+      update_master_json();
+    },function(error){
+      custom_alert("error - check console!");
+      console.dir(error);
+    },
+    "filesUpload");
+    
+    switch(dev_obj.context){
+      case "localhost":
+        eel.save_survey(survey_name[1].toLowerCase()
+                                   .replace(".csv","") + ".csv",
+                        survey_content);
+        break;
+      default:
+        //nothing?
+        break;
+    }
 	}
 });
 

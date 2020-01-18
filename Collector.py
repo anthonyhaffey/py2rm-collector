@@ -88,6 +88,29 @@ def load_master_json():
         master_json = json.loads(master_json)
         eel.load_master_json(master_json)
 
+
+
+@eel.expose
+def rename_experiment(old_name,
+                      new_name):
+    #rename the experiment json
+    #rename the experiment folder
+    print("not yet implemented")
+
+@eel.expose
+def rename_survey(old_name,
+                  new_name):
+    try:
+        os.rename("web/User/Surveys/" + old_name,
+                  "web/User/Surveys/" + new_name)
+        eel.update_master_surveys(old_name,
+                                  new_name)
+    except Exception as err:
+        print(err)
+        eel.python_bootbox(str(err))
+
+
+
 @eel.expose
 def request_sheet(experiment,
                   sheet_type,
@@ -186,6 +209,16 @@ def save_master_json(master_json):
         os.mkdir("web/User")
     master_file = open("web/User/master.json", "w")
     master_file.write(json.dumps(master_json))
+
+@eel.expose
+def save_survey(survey_name,
+                survey_content):
+    #detect if the "User" folder exists yet
+    if os.path.isdir("web/User/Surveys") == False:
+        os.mkdir("web/User/Surveys")
+    survey_file = open("web/User/Surveys/" + survey_name, "w", newline='')
+    survey_file.write(survey_content)
+
 
 ####################
 # Start Collector ##
