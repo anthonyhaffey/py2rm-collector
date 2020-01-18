@@ -118,67 +118,56 @@ function loadFileAsText(){
 encrypt_obj = {
   _decrypt_request:function(encrypted_content,
                             default_filename){
-    bootbox.prompt("What is your password",function(user_password){
+    bootbox.prompt({
+      title: "What is your password? (this will never be saved, but is needed to upload your changes to github)",
+      inputType: "password",
+      callback: function(password){
+        if(password){
+          var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);    
+          var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
+          this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
+          
+          response_headers 		 = [];
+          for(var i = 0; i < this_decrypted_message.length ; i++) {
+            decrypted_data = this_decrypted_message[i];
+            Object.keys(decrypted_data).forEach(function(header){
+              if(response_headers.indexOf(header) == -1){
+                response_headers.push(header);
+              };
+            });        
+          }        
 
-      var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);    
-      var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
-      this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
-      
-      response_headers 		 = [];
-      for(var i = 0; i < this_decrypted_message.length ; i++) {
-        decrypted_data = this_decrypted_message[i];
-        Object.keys(decrypted_data).forEach(function(header){
-          if(response_headers.indexOf(header) == -1){
-            response_headers.push(header);
-          };
-        });        
-      }        
-
-      for(var i =0; i < this_decrypted_message.length; i++){
-        response_headers.forEach(function(this_header){
-          if(typeof(this_decrypted_message[i][this_header]) == "undefined"){
-            this_decrypted_message[i][this_header] = "";
+          for(var i =0; i < this_decrypted_message.length; i++){
+            response_headers.forEach(function(this_header){
+              if(typeof(this_decrypted_message[i][this_header]) == "undefined"){
+                this_decrypted_message[i][this_header] = "";
+              }
+            });
           }
-        });
-      }
-      
-      //download the data file here
+          
+          //download the data file here
 
-      //
-      bootbox.prompt({
-        title: "What would you like to name this file?",
-        value: default_filename,
-        callback: function(result) {
-          var filename = result.toLowerCase().replace(".csv","") + ".csv";
-          save_csv (filename, Papa.unparse(this_decrypted_message,{
-            quotes: false, //or array of booleans
-            quoteChar: '"',
-            escapeChar: '"',
-            delimiter: ",",
-            header: true,
-            newline: "\r\n",
-            skipEmptyLines: true, //or 'greedy',
-            columns: null //or array of strings
-          }));          
-        }
-      });
+          //
+          bootbox.prompt({
+            title: "What would you like to name this file?",
+            value: default_filename,
+            callback: function(result) {
+              var filename = result.toLowerCase().replace(".csv","") + ".csv";
+              save_csv (filename, Papa.unparse(this_decrypted_message,{
+                quotes: false, //or array of booleans
+                quoteChar: '"',
+                escapeChar: '"',
+                delimiter: ",",
+                header: true,
+                newline: "\r\n",
+                skipEmptyLines: true, //or 'greedy',
+                columns: null //or array of strings
+              }));          
+            }
+          });
+        };
+      }
     });
-    /*
-      bootbox.prompt("What would you like to name this file?",function(result){
-        var filename = result.toLowerCase().replace(".csv","") + ".csv";
-        save_csv (filename, Papa.unparse(this_decrypted_message,{
-          quotes: false, //or array of booleans
-          quoteChar: '"',
-          escapeChar: '"',
-          delimiter: ",",
-          header: true,
-          newline: "\r\n",
-          skipEmptyLines: true, //or 'greedy',
-          columns: null //or array of strings
-        }));
-      });
-    });
-    */
   },
   confirm_keys:function(){
     this_encrypted_message = encrypt_obj.encrypt(receiverPublicKey,"howdy");

@@ -304,15 +304,13 @@ $("#save_btn").on("click", function(){
 
 	//parse procs for survey saving next
 	if($("#experiment_list").val() !== null) {
-    clean_conditions();
- 		//   if(typeof(this_exp.parsed_procs) == "undefined"){
     this_exp.parsed_procs = {};
     var procs = Object.keys(this_exp.all_procs);
     procs.forEach(function(proc){
       this_exp.parsed_procs[proc] = Papa.parse(Papa.unparse(this_exp.all_procs[proc]),{header:true}).data;
     });
-   	// }
-		//add surveys to experiment
+   	
+    //add surveys to experiment
 		if(typeof(this_exp.surveys) == "undefined"){
 			this_exp.surveys = {};
 		}

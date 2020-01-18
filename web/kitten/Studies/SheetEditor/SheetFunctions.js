@@ -327,6 +327,23 @@ function update_handsontables(){
 
   switch(dev_obj.context){
       case "localhost":
+        eel.expose(receive_sheet);
+        function receive_sheet(sheet_content,
+                               sheet_type,
+                               sheet_name){
+          createExpEditorHoT(Papa.parse(sheet_content).data,
+                             sheet_type,
+                             sheet_name);
+        }
+        eel.request_sheet(experiment,
+                          "Conditions",
+                          "conditions.csv");
+        eel.request_sheet(experiment,
+                          "Stimuli",
+                          stim_file);
+        eel.request_sheet(experiment,
+                          "Procedure",
+                          proc_file);
       case "github":
         $.get("../User/Experiments/" + experiment + "/conditions.csv",function(result){
           createExpEditorHoT(Papa.parse(result).data,

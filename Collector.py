@@ -89,6 +89,16 @@ def load_master_json():
         eel.load_master_json(master_json)
 
 @eel.expose
+def request_sheet(experiment,
+                  sheet_type,
+                  sheet_name):
+    sheet_content = open("web/User/Experiments/" + experiment + "/" + sheet_name, "r")
+    sheet_content = sheet_content.read()
+    eel.receive_sheet(sheet_content,
+                      sheet_type,
+                      sheet_name)
+
+@eel.expose
 def save_data(experiment_name,participant_code,responses):
     print("experiment_name")
     print(experiment_name)
