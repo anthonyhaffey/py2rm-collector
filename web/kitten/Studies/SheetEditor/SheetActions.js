@@ -427,8 +427,18 @@ $("#save_btn").on("click", function(){
     });
 
     if(dev_obj.context == "localhost"){
-      eel.save_experiment(experiment,     //experiment name
-                          this_exp);      //experiment content
+      python_exp = this_exp;
+      python_exp.python_procs = {};
+      Object.keys(this_exp.all_procs).forEach(function(this_proc){
+        python_exp.python_procs[this_proc] = Papa.unparse(this_exp.all_procs[this_proc]);
+      });
+      python_exp.python_stims = {};
+      Object.keys(this_exp.all_stims).forEach(function(this_stim){
+        python_exp.python_stims[this_stim] = Papa.unparse(this_exp.all_stims[this_stim]);
+      });
+      eel.save_experiment(experiment,  //experiment name
+                          python_exp); //experiment content
+                          
     }
 
     //dropbox check here

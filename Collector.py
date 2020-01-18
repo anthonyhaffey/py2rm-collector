@@ -77,34 +77,6 @@ def push_collector(username,
         print("It all seems to have worked - mostly speaking")
 
 @eel.expose
-def update_collector(location,
-                     this_rep_info,
-                     password):
-    this_rep_info = json.loads(this_rep_info)
-    organisation  = this_rep_info["organisation"]
-    repository    = this_rep_info["repository"]
-    username      = this_rep_info["username"]
-
-    if organisation == "":
-        organisation = username
-
-    #repository = split the location to get the repository name
-    os.chdir(location)
-    os.system("git pull https://github.com/open-collector/open-collector")
-
-    eel.python_message("Succesfully updated on local machine!")
-
-    if this_rep_info["online"]:
-        os.system("git add .")
-        os.system("git commit -m 'update from master'")
-        os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository)
-        eel.python_message("Succesfully updated <b>" + organisation + "/" + repository)
-        #git push https://username:password@myrepository.biz/file.git --all
-
-
-
-
-@eel.expose
 def load_master_json():
     #check if the uber mega file exists yet
     try:
@@ -134,6 +106,7 @@ def save_data(experiment_name,participant_code,responses):
 
 @eel.expose
 def save_experiment(experiment_name,experiment_json):
+    errors = 0
     print("trying to save experiment")
     if os.path.isdir("web/User/Experiments") == False:
         os.mkdir("web/User/Experiments")
@@ -142,6 +115,46 @@ def save_experiment(experiment_name,experiment_json):
     experiment_file = open("web/User/Experiments/" + experiment_name + ".json", "w")
     experiment_file.write(json.dumps(experiment_json))
 
+    python_message = "Experiment saved"
+    eel.python_bootbox(python_message)
+
+    if os.path.isdir("web/User/Experiments/" + experiment_name) == False:
+        os.mkdir("web/User/Experiments/" + experiment_name)
+
+    for this_proc in experiment_json["python_procs"].keys():
+        python_message = python_message + "...<br> saving the procedure <b>" + this_proc + "</b>"
+        eel.python_bootbox(python_message)
+        print (this_proc)
+        try:
+            this_proc_file = open("web/User/Experiments/" + experiment_name + "/" + this_proc, "w")
+            this_proc_file.write(experiment_json["python_procs"][this_proc])
+        except:
+            print("error here");
+            errors = errors + 1
+            python_message += "...<br><span class='text-danger'>Error when trying to save <b>" + \
+                              this_proc + \
+                              "</b> - is the file open on your computer?</span>"
+            eel.python_bootbox(python_message)
+        finally:
+            print("moving on")
+    if errors == 0:
+        eel.python_hide_bb()
+
+    '''
+    #implement messaging from python to Collector
+    python_message = "Experiment saved"
+    eel.python_bootbox(python_message)
+
+    print(experiment_json)
+    print(experiment_json['all_procs'])
+
+    for sheetname in vars(experiment_json['all_procs']):
+        print(sheetname)
+
+    #save the individual procedure and stimuli sheets");
+
+    eel.python_hide_bb()
+    '''
 
 @eel.expose
 def save_master_json(master_json):

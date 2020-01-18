@@ -84,30 +84,13 @@
 <script src="Studies/SheetEditor/SheetActions.js"></script>
 
 <script>
-//handsontable_detected = false;  -- not sure what this was doing, but removing it seems to fix some problems
-$(window).bind('keydown', function(event) {
-    // hack to get keydown detected for handsontables
-    //if(handsontable_detected == false){
-        $(".handsontableInput").keyup(function(){
-            $("#cell_content").val(this.value);
-        });
-        $(".handsontableInput").keydown(function(){
-            if(window.event.keyCode == "27"){
-                $("#cell_content").val("");
-            };
-        });
-    //}
-    //handsontable_detected = true;
-});
 
 $("#stim_list_button").on("click",function(){
-
   var web_url = document.URL.split("/");
       web_url[web_url.length - 1] = "Studies/SheetEditor/StimList.html";
       web_url = web_url.join("/");
 	window.open(web_url,"stimList",'height=800,width=800');
 });
-
 
 var spreadsheets = {};
 var alerts_ready = false;

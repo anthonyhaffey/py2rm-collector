@@ -2,6 +2,24 @@
 // Eel functions
 //////////////////
 
+python_dialog = bootbox.dialog({
+  show:false,
+  title:"Please wait",
+  message:"<div id='python_message'></div>"
+});
+
+
+eel.expose(python_bootbox);
+function python_bootbox(message){
+  $("#python_message").html(message);
+  python_dialog.modal("show");
+}
+
+eel.expose(python_hide_bb);
+function python_hide_bb(){
+  python_dialog.modal("hide");
+}
+
 eel.expose(load_master_json);
 function load_master_json(this_json){
   master_json = this_json;

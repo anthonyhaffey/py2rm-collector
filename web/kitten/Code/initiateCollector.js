@@ -37,7 +37,7 @@ function collectorPapaParsed(content){
   			return rows.join("\r\n");
   		},
   		header:true,
-  		skipEmptyLines:true
+  		skipEmptyLines:'greedy'
   	}).data;
   } else {
     post_parsed = Papa.parse(content,{
@@ -48,7 +48,7 @@ function collectorPapaParsed(content){
   			return rows.join("\r\n");
   		},
   		header:true,
-  		skipEmptyLines:true
+  		skipEmptyLines:'greedy'
   	}).data;
   }
 	return post_parsed;
