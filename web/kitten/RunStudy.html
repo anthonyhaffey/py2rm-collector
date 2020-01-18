@@ -472,7 +472,7 @@ function final_trial(){
   switch(Study.get_vars.platform){
     case "server": //this should be changed to preview if you do not want data saved!
       $("#experiment_div").html("<h3 class='text-primary'>Please do not close this window until it has been confirmed that the researcher has been e-mailed your data (or you have downloaded the data yourself that you will e-mail the researcher). If you do not get a prompt to do this within 30 seconds, press CTRL-S and you should be able to directly download your data.</h3>");
-      download_at_end = exp_json.this_condition.download_at_end;
+
 
       $.post("emailData.php",{
         all_data   : JSON.stringify(exp_json),
@@ -562,7 +562,12 @@ function final_trial(){
       break;
     case "localhost":
     case "preview":
-      $("#experiment_div").html("<h1>You have finished. You can download the data by clicking <b><span id='download_json'>here</span></b>.</h1>");
+      if(exp_json.this_condition.download_at_end !== "off"){
+        download_message = "You can download the data by clicking <b><span id='download_json'>here</span></b>.";
+      } else {
+        download_message = "";
+      }
+      $("#experiment_div").html("<h1>You have finished. " + download_message + "</h1>");
       window.localStorage.removeItem("exp_json");
       window.localStorage.removeItem("username");
       break
@@ -664,7 +669,7 @@ function parse_sheets(){
 
   if(stim_sheet_name.indexOf("/") !== -1){          // then we assume it's a csv file
     $.get(stim_sheet_name,function(stim_sheet_content){
-      exp_json.parsed_stim = collectorPapaParsed(stim_sheet_content);
+      exp_json.parsed_stim = [null,null].concat(collectorPapaParsed(stim_sheet_content)); 
       proc_stim_loaded[0] = "stimuli";
       if(proc_stim_loaded.join("-") == "stimuli-procedure"){
         Study.activate_pipe();
