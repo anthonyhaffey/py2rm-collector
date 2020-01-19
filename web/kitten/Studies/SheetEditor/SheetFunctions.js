@@ -331,10 +331,36 @@ function update_handsontables(){
         function receive_sheet(sheet_content,
                                sheet_type,
                                sheet_name){
-          createExpEditorHoT(Papa.parse(sheet_content).data,
-                             sheet_type,
-                             sheet_name);
+          if(sheet_content.split(",").length > 1){
+            createExpEditorHoT(Papa.parse(sheet_content).data,
+                               sheet_type,
+                               sheet_name);
+          } else {
+            var experiment = sheet_content; //focusing on loading from master_json
+            if(sheet_type == "Conditions"){
+              var sheet_json = master_json.exp_mgmt
+                                          .experiments[experiment]
+                                          .cond_array;
+            } else if(sheet_type == "Stimuli") {
+              var sheet_json = master_json.exp_mgmt
+                                          .experiments[experiment]
+                                          .all_stims[sheet_name];
+            } else if(sheet_type == "Procedure"){
+              var sheet_json = master_json.exp_mgmt
+                                          .experiments[experiment]
+                                          .all_procs[sheet_name];              
+            } else {
+              bootbox.alert("Problem loading experiment - not sure what type of sheet <b>" + sheet_type + "</b> is.");
+            }
+            createExpEditorHoT(sheet_json,
+                               sheet_type,
+                               sheet_name);
+          }
         }
+        //check each sheet exists first
+        
+        
+        
         eel.request_sheet(experiment,
                           "Conditions",
                           "conditions.csv");

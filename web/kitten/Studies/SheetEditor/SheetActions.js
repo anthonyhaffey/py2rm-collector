@@ -252,8 +252,13 @@ $("#run_btn").on("click",function(){
 					master_json.exp_mgmt.exp_condition = $("#select_condition").val();
 					bootbox.confirm("This will go to the link you should send your participants. However, it can take 5+ minutes for this link to update from the moment you push the updates to github",function(result){
 						if(result){
+              if(master_json.github.organisation !== ""){
+                var organisation = master_json.github.organisation;
+              } else {
+                var organisation = master_json.github.username;
+              }
 							var github_url =  "https://" +
-						                    master_json.github.username +
+						                    organisation +
 						                    ".github.io/" +
 						                    master_json.github.repository +
 						                    "/web/" +
@@ -287,7 +292,7 @@ $("#run_btn").on("click",function(){
 	});
 });
 $("#save_btn").on("click", function(){
-	$("#save_trial_type_button").click();
+  $("#save_trial_type_button").click();
 	$("#save_survey_btn").click();
   $("#save_snip_btn").click();
 	$("#save_data_script_btn").click();
