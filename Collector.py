@@ -1,12 +1,16 @@
 import eel
-import os
 import json
+import os
+
+#from psutil import process_iter
+#from signal import SIGKILL
+
 
 @eel.expose
 def ask_python_exp(exp_name):
     experiment_file = open("web/User/Experiments/" + exp_name + ".json", "r")
     experiment_file  = experiment_file.read()
-    experiment_json = json.loads(experiment_file)
+    experiment_json = json.loads(experiment_filecd )
     eel.python_gives_exp(experiment_json)
 
 @eel.expose
@@ -52,6 +56,7 @@ def push_collector(username,
     #create repository if that fails
     #os.system("git push https://github.com/open-collector/open-collector")
     try:
+        print(this_message)
         os.system("git add .")
         os.system("git commit -m '" + this_message + "'")
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
@@ -115,8 +120,13 @@ def rename_survey(old_name,
 def request_sheet(experiment,
                   sheet_type,
                   sheet_name):
-    sheet_content = open("web/User/Experiments/" + experiment + "/" + sheet_name, "r")
-    sheet_content = sheet_content.read()
+
+    if os.path.isfile("web/User/Experiments/" + experiment + "/" + sheet_name):
+        sheet_content = open("web/User/Experiments/" + experiment + "/" + sheet_name, "r")
+        sheet_content = sheet_content.read()
+    else:
+        sheet_content = experiment
+
     eel.receive_sheet(sheet_content,
                       sheet_type,
                       sheet_name)
@@ -133,7 +143,7 @@ def save_data(experiment_name,participant_code,responses):
         os.mkdir("web/User/Data")
     if os.path.isdir("web/User/Data/" + experiment_name) == False:
         os.mkdir("web/User/Data/" + experiment_name)
-    experiment_file = open("web/User/Data/" + experiment_name+ "/" + participant_code + ".csv", "w")
+    experiment_file = open("web/User/Data/" + experiment_name+ "/" + participant_code + ".csv", "w", newline='')
     experiment_file.write(responses)
 
 
@@ -227,6 +237,9 @@ def save_survey(survey_name,
 if os.path.isdir("web") == False:
 
     # more code here
+
+
+
     # check if github is installed
 
     pull_open_collector_only()
@@ -234,4 +247,13 @@ if os.path.isdir("web") == False:
 
 
 eel.init('web') #allowed_extensions=[".js",".html"]
-eel.start('kitten/index.html')
+
+'''
+for proc in process_iter():
+    for conns in proc.get_connections(kind='inet'):
+        if conns.laddr[1] == 8000:
+            proc.send_signal(SIGKILL)
+            continue
+'''
+eel.start('kitten/index.html', port=8000)
+

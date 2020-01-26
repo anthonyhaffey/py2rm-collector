@@ -34,6 +34,7 @@ function load_master_json(this_json){
   list_trialtypes();
   initiate_actions();
   autoload_boosts();
+  wait_till_exists("list_keys");
 }
 
 // this is a hack to deal with asynchronous order of parts of the page loading

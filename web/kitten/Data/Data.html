@@ -46,8 +46,11 @@ Encryption code/interface
 
 
 <nav class="navbar navbar-primary bg-white fixed-top fixed-top-2">
-  <button class="btn btn-primary" id="js_decrypt_btn">Upload and decrypt file</button>
-  <input type="file" id="fileToLoad" style="display:none">
+  <span> <!-- to block formatting that puts the next button on the far right -->
+    <button class="btn btn-primary" id="js_decrypt_btn">Upload and decrypt file</button>
+    <input type="file" id="fileToLoad" style="display:none">
+    <button class="btn btn-primary" onclick="encrypt_obj.change_password()">Change password</button>
+  </span>
 </nav>
 
 
@@ -121,12 +124,33 @@ encrypt_obj = {
     bootbox.prompt({
       title: "What is your password? (this will never be saved, but is needed to upload your changes to github)",
       inputType: "password",
-      callback: function(password){
-        if(password){
-          var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);    
-          var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
-          this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
+      callback: function(user_password){
+        if(user_password){
           
+          
+          //set up a function that can be called recursively, working through each archived keypair until there are none.
+        
+        
+        
+          console.dir("howdy");
+          console.dir("howdy");
+          var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);  
+          console.dir("decrypted_private_key_obj beep");
+          console.dir(decrypted_private_key_obj);
+          try{
+            var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
+          } catch(error) {
+            alert("got here");
+            custom_alert(error);
+          }
+          console.dir("decrypted_private_key");
+          console.dir(decrypted_private_key);
+          try{
+            this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
+          } catch(error){
+            alert("got there");
+            custom_alert(error);
+          }
           response_headers 		 = [];
           for(var i = 0; i < this_decrypted_message.length ; i++) {
             decrypted_data = this_decrypted_message[i];
@@ -166,6 +190,43 @@ encrypt_obj = {
             }
           });
         };
+      }
+    });
+  },
+  archive_keys(){
+    var keypair = {
+                    public_key : master_json.keys.public_key,
+                    encryped_private_key : master_json.keys.encrypted_private_key
+                  };
+    master_json.keys.archived.push(keypair);                    
+  },
+  change_password(){
+    bootbox.dialog({
+      title:"Delete old password",
+      message:"Do you want to delete the old password keys? WARNING IF YOU DO THIS YOU WILL NEVER BE ABLE TO DECRYPT ANY DATA ASSOCIATED WITH THIS PASSWORD AGAIN. If you don't want to delete the old password, but still want a new one, select <b>No</b>",
+      buttons:{
+        yes: {
+          label: "Yes",
+          className: 'btn-danger',
+          callback: function(){
+            encrypt_obj.generate_keys();
+          }
+        },
+        no: {
+          label: "No",
+          className: 'btn-primary',
+          callback: function(){
+            encrypt_obj.archive_keys();
+            encrypt_obj.generate_keys();
+          }
+        },
+        cancel: {
+          label: "Cancel",
+          className: 'btn-secondary',
+          callback: function(){
+            //nothing
+          }
+        },
       }
     });
   },
@@ -226,8 +287,12 @@ encrypt_obj = {
     receiverPublicKey = nacl.util.encodeBase64(keypair.publicKey);
     receiverSecretKey = nacl.util.encodeBase64(keypair.secretKey)
 
-    master_json.keys = {};
-
+    if(typeof(master_json.keys) == "undefined"){
+      master_json.keys = {
+        archived : []
+      };
+    }
+    
     master_json.keys.public_key = receiverPublicKey;
 
 
@@ -245,6 +310,7 @@ encrypt_obj = {
               console.dir("all good");
               master_json.keys.encrypted_private_key = encryptedAES_string;
               encrypt_obj.confirm_keys();
+              list_keys();
             } else {
               bootbox.alert("Something went wrong with creating your encryption keys");
             }
@@ -265,6 +331,16 @@ encrypt_obj = {
   }
 }
 
+function list_keys(){
+  if(typeof(master_json.keys) !== "undefined" &&
+     typeof(master_json.keys.public_key) !== "undefined" &&
+     master_json.keys.public_key !== ""){
+    $("#public_key").val(master_json.keys.public_key);
+    $("#private_key").val(master_json.keys.encrypted_private_key); 
+  } else {
+    encrypt_obj.generate_keys();
+  }
+}
 
 </script>
 

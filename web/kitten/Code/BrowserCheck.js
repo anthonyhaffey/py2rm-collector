@@ -34,11 +34,20 @@ var isIE = /*@cc_on!@*/false || !!document.documentMode;
 var isEdge = !isIE && !!window.StyleMedia;
 
 // Chrome 1+
-var isChrome = !!window.chrome && !!window.chrome.webstore;
+var isChrome = !!window.chrome && (!!window.chrome.webstore || !!window.chrome.runtime);
+
 
 // Blink engine detection
 var isBlink = (isChrome || isOpera) && !!window.CSS;
 
 if(isIE){
   alert("This website does not work reliably on Internet Explorer - Please use another browser, preferably Google Chrome.");
-}
+} 
+
+participant_browser = isOpera   ? "opera" 
+                    : isFirefox ? "firefox" 
+                    : isSafari  ? "safari"
+                    : isIE      ? "internet_explorer"
+                    : isEdge    ? "edge"
+                    : isChrome  ? "chrome"
+                    : isBlink   ? "blink" : "unknown";

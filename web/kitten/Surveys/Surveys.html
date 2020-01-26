@@ -53,7 +53,7 @@ function load_default_surveys(){
     if(list.length > 0){
       var this_survey = list.pop();
       $.get(collector_map[this_survey],function(survey_content){
-        default_surveys[this_survey.toLowerCase().replace(".csv","")] = Papa.parse(survey_content).data;
+        default_surveys[this_survey.toLowerCase()] = Papa.parse(survey_content).data;
         load_survey(list);
       });
     } else {
@@ -207,11 +207,13 @@ function create_survey_HoT(this_survey){
 }
 
 function list_surveys(){
-  master_json.surveys = {
-    preview         : false,
-    user_surveys    : {}
-  };
-
+  if(typeof(master_json.surveys) == "undefined" ||
+     typeof(master_json.surveys.user_surveys) == "undefined"){
+    master_json.surveys = {
+      preview         : false,
+      user_surveys    : {}
+    }
+  }
 	master_json.surveys = typeof(master_json.surveys) == "undefined" ? {} : master_json.surveys;
 	master_json.surveys.default_surveys = default_surveys;
 
@@ -357,7 +359,7 @@ $("#rename_survey_btn").on("click",function(){
             
             update_master_json();
 						list_surveys();
-						$("#survey_select").val(new_name);
+						$("#survey_select").val(new_survey_name);
             
             
           }

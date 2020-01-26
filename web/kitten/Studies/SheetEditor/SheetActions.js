@@ -220,12 +220,30 @@ $("#rename_stim_button").on("click",function(){
 });
 $("#run_btn").on("click",function(){
   if(typeof(master_json.data.save_script) == "undefined" ||
-     //test here for whether there is a github repository linked
-     master_json.data.save_script == ""){
-     var no_script_warning = '<h2 class="text-danger">You have not set up where the data will be saved online yet. Whilst your experiment will work locally, it WILL NOT work online. <span onclick="$(\'#github_logo\').click()"><em><u>Click here</u></em></span> to review your online settings.</h2>';
-  } else {
-    var no_script_warning = '';
+    //test here for whether there is a github repository linked
+    master_json.data.save_script == ""){
+       
+    bootbox.prompt("You currently have no link that saves your data. Please follow the instructions in the tutorial (to be completed), and then copy the link to confirm where to save your data below:",function(this_url){
+      if(this_url){
+        master_json.data.save_script = this_url;
+        $("#save_btn").click();
+      }
+    });      
   }
+  /*
+  
+  
+  password check here
+  
+  
+  
+  if(typeof(master_json.data.save_script) == "undefined" ||
+    //test here for whether there is a github repository linked
+    master_json.data.save_script == ""){
+    
+    
+  }
+  */
 	var select_html = '<select id="select_condition" class="custom-select">';
 	exp_json.conditions.forEach(function(condition){
 		select_html += "<option>" + condition.name + "</option>";
@@ -234,7 +252,7 @@ $("#run_btn").on("click",function(){
 
 	bootbox.dialog({
 		title:"Select a Condition",
-		message: no_script_warning + "Which condition would you like to run? <br><br>" + select_html,
+		message: "Which condition would you like to run? <br><br>" + select_html,
 		buttons: {
       local:{
         label: "Localhost",
@@ -300,8 +318,7 @@ $("#save_btn").on("click", function(){
   if(typeof(master_json.keys) == "undefined" ||
 		 typeof(master_json.keys.public_key) == "undefined"){
 			 encrypt_obj.generate_keys();
-	}
-  
+	}  
 	var experiment 						= master_json.exp_mgmt.experiment;
   var this_exp 							= master_json.exp_mgmt.experiments[experiment];
       this_exp.public_key   = master_json.keys.public_key;
@@ -394,13 +411,15 @@ $("#save_btn").on("click", function(){
 						bootbox.alert("The trialtype <b>" + cleaned_row["trial type"] + "</b> doesn't appear to exist");
 					}
 					these_variables = list_variables(this_trialtype);
+              
 					these_variables.forEach(function(this_variable){
-						if(Object.keys(cleaned_row).indexOf(this_variable) == -1){          //i.e. this variable is not part of this procedure
-							bootbox.alert("You have your item set to <b>0</b> in row <b>" +
+						if(Object.keys(cleaned_row).indexOf(this_variable) == -1 &&
+               this_variable !== "survey"){          //i.e. this variable is not part of this procedure
+							custom_alert("You have your item set to <b>0</b> in row <b>" +
 														(row_index + 2) +
 														"</b>. However, it seems like the trialtype <b>" +
 														cleaned_row["trial type"] +
-														"</b> will be looking for a variable in your" +
+														"</b> will be looking for a variable <b>" + this_variable + "</b> in your" +
 														" stimuli sheet.");
 						}
 					});
