@@ -10,12 +10,25 @@ import os
 def ask_python_exp(exp_name):
     experiment_file = open("web/User/Experiments/" + exp_name + ".json", "r")
     experiment_file  = experiment_file.read()
-    experiment_json = json.loads(experiment_filecd )
+    experiment_json = json.loads(experiment_file)
     eel.python_gives_exp(experiment_json)
 
 @eel.expose
 def delete_exp(exp_name):
     os.remove("web/User/Experiments/" + exp_name + ".json")# delete file
+
+@eel.expose
+def load_master_json():
+    #check if the uber mega file exists yet
+    try:
+        master_json = open("web/User/master.json", "r")
+    except:
+        master_json = open("web/kitten/Default/master.json", "r")
+    finally:
+        master_json = master_json.read()
+        master_json = json.loads(master_json)
+        eel.load_master_json(master_json)
+
 
 @eel.expose
 def pull_open_collector(username,
@@ -81,17 +94,6 @@ def push_collector(username,
     finally:
         print("It all seems to have worked - mostly speaking")
 
-@eel.expose
-def load_master_json():
-    #check if the uber mega file exists yet
-    try:
-        master_json = open("web/User/master.json", "r")
-    except:
-        master_json = open("web/kitten/Default/master.json", "r")
-    finally:
-        master_json = master_json.read()
-        master_json = json.loads(master_json)
-        eel.load_master_json(master_json)
 
 
 
@@ -132,7 +134,10 @@ def request_sheet(experiment,
                       sheet_name)
 
 @eel.expose
-def save_data(experiment_name,participant_code,responses):
+def save_data(experiment_name,
+              participant_code,
+              completion_code,
+              responses):
     print("experiment_name")
     print(experiment_name)
     print("participant_code")
@@ -143,7 +148,7 @@ def save_data(experiment_name,participant_code,responses):
         os.mkdir("web/User/Data")
     if os.path.isdir("web/User/Data/" + experiment_name) == False:
         os.mkdir("web/User/Data/" + experiment_name)
-    experiment_file = open("web/User/Data/" + experiment_name+ "/" + participant_code + ".csv", "w", newline='')
+    experiment_file = open("web/User/Data/" + experiment_name+ "/" + participant_code + "-" + completion_code + ".csv", "w", newline='')
     experiment_file.write(responses)
 
 

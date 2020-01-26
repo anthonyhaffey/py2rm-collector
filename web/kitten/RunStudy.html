@@ -109,7 +109,7 @@ $("#welcome_html").load("Welcome.html");
 
 
 
-
+<input type="hidden" id="completion_code" name="completion_code"/>
 <script>
 exp_json = {}; //this will get updated
 
@@ -126,7 +126,7 @@ online_data_obj = {
     var this_save = online_data_obj.save_queue.pop();
     this_save();
     if(online_data_obj.save_queue.length > 0){         //keep going until all saves done.
-      gogle_obj.run_save();
+      online_data_obj.run_save();
     }
   },
   save_queue_add:function(save_queue_item){
@@ -251,10 +251,12 @@ Study = {
       $("#trial"+exp_json.trial_no).contents().children().find("iframe").hide();
       Study.start_post();
     }
+    
     switch(Study.get_vars.platform){
       case "localhost":
         eel.save_data(Study.get_vars.location,
                       $("#participant_code").val(),
+                      $("#completion_code").val(),
                       Papa.unparse(complete_csv(exp_json.responses),{
                         quotes: false, //or array of booleans
                         header: true,
@@ -266,8 +268,8 @@ Study = {
         online_data_obj.save_queue_add(
           function(){
             online_save(Study.get_vars.location,
-                        $("#participant_code").val(),
-                        JSON.stringify(encrypt(exp_json.public_key,    //the public key
+                      $("#participant_code").val(),
+                      $("#completion_code").val(),                        JSON.stringify(encrypt(exp_json.public_key,    //the public key
                         JSON.stringify(exp_json.responses))),          //the data
             exp_json.save_script,
             function(){
@@ -551,6 +553,7 @@ function final_trial(){
               $("#participant_country").load("ParticipantCountry.html");
               window.localStorage.removeItem("exp_json");
               window.localStorage.removeItem("username");
+              window.localStorage.removeItem("completion_code");
             },1000);
           } else {
             var google_prog_perc = (100*online_data_obj.saves_ended/online_data_obj.saves_started) + "%";
@@ -571,6 +574,7 @@ function final_trial(){
       $("#experiment_div").html("<h1>You have finished. " + download_message + "</h1>");
       window.localStorage.removeItem("exp_json");
       window.localStorage.removeItem("username");
+      window.localStorage.removeItem("completion_code");
       break
   }
 
@@ -798,6 +802,9 @@ function participant_backup(){
 }
 
 function post_welcome(participant_code,id_error){
+  var completion_code = Math.random().toString(36).substr(2, 10);
+  window.localStorage.setItem("completion_code",completion_code);
+  $("#completion_code").val(completion_code);
   switch(Study.get_vars.platform){
     case "server":
       $.post("PostWelcome.php",{
@@ -832,7 +839,7 @@ function post_welcome_data(returned_data){
     } else if(id_error == "random"){
 
       //generate new random code
-      var this_code = Math.random().toString(36).substr(2, 16)
+      var this_code = Math.random().toString(36).substr(2, 16);
       post_welcome(this_code,"random");
 
     } else if(id_error == false){
@@ -1014,6 +1021,7 @@ function start_restart(){
             exp_json = JSON.parse(window.localStorage.getItem("exp_json"));
             var participant_code = window.localStorage.getItem("username");
             $("#participant_code").val(participant_code);
+            $("#completion_code").val(completion_code);
             post_welcome(participant_code,false);
             Study.activate_pipe();
   				}

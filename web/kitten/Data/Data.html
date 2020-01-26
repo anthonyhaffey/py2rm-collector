@@ -122,73 +122,81 @@ encrypt_obj = {
   _decrypt_request:function(encrypted_content,
                             default_filename){
     bootbox.prompt({
-      title: "What is your password? (this will never be saved, but is needed to upload your changes to github)",
+      title: "What is your password? (this will never be saved, but is needed)",
       inputType: "password",
       callback: function(user_password){
         if(user_password){
           
           
           //set up a function that can be called recursively, working through each archived keypair until there are none.
-        
-        
-        
-          console.dir("howdy");
-          console.dir("howdy");
-          var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);  
-          console.dir("decrypted_private_key_obj beep");
-          console.dir(decrypted_private_key_obj);
-          try{
-            var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
-          } catch(error) {
-            alert("got here");
-            custom_alert(error);
-          }
-          console.dir("decrypted_private_key");
-          console.dir(decrypted_private_key);
-          try{
-            this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
-          } catch(error){
-            alert("got there");
-            custom_alert(error);
-          }
-          response_headers 		 = [];
-          for(var i = 0; i < this_decrypted_message.length ; i++) {
-            decrypted_data = this_decrypted_message[i];
-            Object.keys(decrypted_data).forEach(function(header){
-              if(response_headers.indexOf(header) == -1){
-                response_headers.push(header);
-              };
-            });        
-          }        
-
-          for(var i =0; i < this_decrypted_message.length; i++){
-            response_headers.forEach(function(this_header){
-              if(typeof(this_decrypted_message[i][this_header]) == "undefined"){
-                this_decrypted_message[i][this_header] = "";
+          function combine_password_key(keys_list,user_password){
+            if(keys_list.length == 0){
+              bootbox.alert("This password isn't working. Are you sure it's the right password, and that you're decrypting the data with the correct installation of Collector? (i.e. do you have multiple versions of Collector you are conducting research with?");
+            } else {
+              this_private_key = keys_list.pop();
+              var decrypted_private_key_obj = CryptoJS.AES.decrypt(master_json.keys.encrypted_private_key, user_password);  
+              try{
+                var decrypted_private_key = decrypted_private_key_obj.toString(CryptoJS.enc.Utf8);
+              } catch(error) {
+                custom_alert(error + " trying with an archived private key");
+                combine_password_key(keys_list,user_password);
               }
-            });
+              try{
+                this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
+                process_decrypted(this_decrypted_message);
+              } catch(error){
+                custom_alert(error + " trying with an archived private key");
+                combine_password_key(keys_list,user_password);
+              }            
+            }
           }
           
-          //download the data file here
+          function process_decrypted(this_decrypted_message){
+            response_headers 		 = [];
+            for(var i = 0; i < this_decrypted_message.length ; i++) {
+              decrypted_data = this_decrypted_message[i];
+              Object.keys(decrypted_data).forEach(function(header){
+                if(response_headers.indexOf(header) == -1){
+                  response_headers.push(header);
+                };
+              });        
+            }        
 
-          //
-          bootbox.prompt({
-            title: "What would you like to name this file?",
-            value: default_filename,
-            callback: function(result) {
-              var filename = result.toLowerCase().replace(".csv","") + ".csv";
-              save_csv (filename, Papa.unparse(this_decrypted_message,{
-                quotes: false, //or array of booleans
-                quoteChar: '"',
-                escapeChar: '"',
-                delimiter: ",",
-                header: true,
-                newline: "\r\n",
-                skipEmptyLines: true, //or 'greedy',
-                columns: null //or array of strings
-              }));          
+            for(var i =0; i < this_decrypted_message.length; i++){
+              response_headers.forEach(function(this_header){
+                if(typeof(this_decrypted_message[i][this_header]) == "undefined"){
+                  this_decrypted_message[i][this_header] = "";
+                }
+              });
             }
+            
+            //download the data file here
+
+            //
+            bootbox.prompt({
+              title: "What would you like to name this file?",
+              value: default_filename,
+              callback: function(result) {
+                var filename = result.toLowerCase().replace(".csv","") + ".csv";
+                save_csv (filename, Papa.unparse(this_decrypted_message,{
+                  quotes: false, //or array of booleans
+                  quoteChar: '"',
+                  escapeChar: '"',
+                  delimiter: ",",
+                  header: true,
+                  newline: "\r\n",
+                  skipEmptyLines: true, //or 'greedy',
+                  columns: null //or array of strings
+                }));          
+              }
+            });            
+          }
+          
+          var all_private_keys = master_json.keys.archived.map(function(row){
+            return row.encrypted_private_key
           });
+          all_private_keys.push(master_json.keys.encrypted_private_key);
+          combine_password_key(all_private_keys,user_password);
         };
       }
     });
@@ -196,7 +204,7 @@ encrypt_obj = {
   archive_keys(){
     var keypair = {
                     public_key : master_json.keys.public_key,
-                    encryped_private_key : master_json.keys.encrypted_private_key
+                    encrypted_private_key : master_json.keys.encrypted_private_key
                   };
     master_json.keys.archived.push(keypair);                    
   },
