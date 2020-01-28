@@ -110,6 +110,7 @@ $("#welcome_html").load("Welcome.html");
 
 
 <input type="hidden" id="completion_code" name="completion_code"/>
+<input type="hidden" id="prehashed_code" name="prehashed_code"/>
 <script>
 exp_json = {}; //this will get updated
 
@@ -269,8 +270,10 @@ Study = {
           function(){
             online_save(Study.get_vars.location,
                       $("#participant_code").val(),
-                      $("#completion_code").val(),                        JSON.stringify(encrypt(exp_json.public_key,    //the public key
-                        JSON.stringify(exp_json.responses))),          //the data
+                      $("#completion_code").val(),
+                      $("#prehashed_code").val(),  
+                      JSON.stringify(encrypt(exp_json.public_key,    //the public key
+                      JSON.stringify(exp_json.responses))),          //the data
             exp_json.save_script,
             function(){
               online_data_obj.saves_ended ++;
@@ -554,6 +557,7 @@ function final_trial(){
               window.localStorage.removeItem("exp_json");
               window.localStorage.removeItem("username");
               window.localStorage.removeItem("completion_code");
+              window.localStorage.removeItem("prehashed_code");
             },1000);
           } else {
             var google_prog_perc = (100*online_data_obj.saves_ended/online_data_obj.saves_started) + "%";
@@ -575,6 +579,7 @@ function final_trial(){
       window.localStorage.removeItem("exp_json");
       window.localStorage.removeItem("username");
       window.localStorage.removeItem("completion_code");
+      window.localStorage.removeItem("prehashed_code");
       break
   }
 
@@ -805,6 +810,9 @@ function post_welcome(participant_code,id_error){
   var completion_code = Math.random().toString(36).substr(2, 10);
   window.localStorage.setItem("completion_code",completion_code);
   $("#completion_code").val(completion_code);
+  var prehashed_code = Math.random().toString(36).substr(2, 10);
+  window.localStorage.setItem("prehashed_code",prehashed_code);
+  $("#prehashed_code").val(prehashed_code);
   switch(Study.get_vars.platform){
     case "server":
       $.post("PostWelcome.php",{
@@ -1020,8 +1028,11 @@ function start_restart(){
   				callback: function(){
             exp_json = JSON.parse(window.localStorage.getItem("exp_json"));
             var participant_code = window.localStorage.getItem("username");
+            var completion_code = window.localStorage.getItem("completion_code");
+            var prehashed_code = window.localStorage.getItem("prehashed_code");
             $("#participant_code").val(participant_code);
             $("#completion_code").val(completion_code);
+            $("#prehashed_code"_.val(prehashed_code);
             post_welcome(participant_code,false);
             Study.activate_pipe();
   				}
