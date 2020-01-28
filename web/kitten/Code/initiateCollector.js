@@ -143,7 +143,7 @@ function initiate_collector(){
   dev_obj.context = detect_context();
   switch(dev_obj.context){
     case "server":
-      $.post("code/InitiateCollector.php",{
+      $.post("Code/InitiateCollector.php",{
 				//nothing to post, just want to run it.
       },function(local_key){
 				$("#login_div").show();

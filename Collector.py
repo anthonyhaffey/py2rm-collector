@@ -2,9 +2,11 @@ import eel
 import json
 import os
 
-#from psutil import process_iter
-#from signal import SIGKILL
-
+'''
+#packages needed to shut down and restart localhost if need be
+from psutil import process_iter
+from signal import SIGKILL
+'''
 
 @eel.expose
 def ask_python_exp(exp_name):
@@ -71,7 +73,7 @@ def push_collector(username,
     try:
         print(this_message)
         os.system("git add .")
-        os.system("git commit -m '" + this_message + "'")
+        os.system("git commit -m \'" + this_message + "\'")
         os.system("git push https://" + username + ":" + password + "@github.com/" + organisation + "/" + repository+ ".git")
     except:
         print("looks like I need to create a repository to push to")
@@ -252,6 +254,7 @@ if os.path.isdir("web") == False:
 
 
 eel.init('web') #allowed_extensions=[".js",".html"]
+
 
 '''
 for proc in process_iter():
