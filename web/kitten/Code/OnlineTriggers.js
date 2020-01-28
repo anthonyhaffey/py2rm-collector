@@ -17,6 +17,7 @@ function google_keys(key_type){
 
 function online_save(experiment_id,
                      participant_id,
+                     completion_code,
                      encrypted_data,
                      save_script_url,
                      after_function){
