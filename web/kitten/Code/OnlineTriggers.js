@@ -23,9 +23,10 @@ function online_save(experiment_id,
                      after_function){
 
   data = {
-    participant_id: participant_id,
-    experiment_id:  experiment_id,
-    encrypted_data: encrypted_data,
+    participant_id:  participant_id,
+    experiment_id:   experiment_id,
+    encrypted_data:  encrypted_data,
+    completion_code: completion_code
   };
   $.ajax({
     type: 'POST',
