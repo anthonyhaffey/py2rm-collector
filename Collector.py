@@ -1,6 +1,7 @@
 import eel
 import json
 import os
+import platform
 
 '''
 #packages needed to shut down and restart localhost if need be
@@ -58,6 +59,9 @@ def pull_open_collector_only():
     os.system("remote set-url origin https://github.com/open-collector/open-collector.git")
     os.system("git fetch origin master")
     os.system("git merge -X theirs origin/master --allow-unrelated-histories -m'update from open-collector'")
+    if platform.system().lower() == "windows":
+        os.system("WindowsCompileCollector.bat")
+    #currently mac and linux users have to use python versions.
 
 @eel.expose
 def push_collector(username,
