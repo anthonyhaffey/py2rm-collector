@@ -1,5 +1,5 @@
 item_name,text,Type,Answers,Optional,Values,
-Gender,Gender,likert,Male|Female|Other,No,,
+Gender,"In the previous video, what happened?",radio,The homeless man was ignored by everyone|The homeless man was helped by some people|The homeless man was helped by everyone,No,,
 ,,page_break,,,,
 Age,Age,Number,,No,,
 Education,"Education (which level are you currently in, or is the highest you've completed)",Dropdown,"Some high school| High school graduate| Some college, no degree| Associate's degree| Bachelor's degree|Graduate degree (Master's, Doctorate, etc.)",No,,
