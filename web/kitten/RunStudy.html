@@ -1,10 +1,3 @@
-<head>
-  <link rel="shortcut icon" type="image/x-icon" href="../logos/collector.ico.png" />
-	<meta charset="utf-8">
-  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-  <meta http-equiv="Pragma" content="no-cache" />
-  <meta http-equiv="Expires" content="0" />
-</head>
 <!--
     Collector (Garcia, Kornell, Kerr, Blake & Haffey)
     A program for running experiments on the web
@@ -23,8 +16,18 @@
     You should have received a copy of the GNU General Public License
     along with this program.  If not, see <http://www.gnu.org/licenses/>
 
-		Kitten release (2019) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)
+		Kitten release (2019-20) author: Dr. Anthony Haffey (a.haffey@reading.ac.uk)
 -->
+<head>
+  <link rel="shortcut icon" type="image/x-icon" href="../logos/collector.ico.png" />
+	<meta charset="utf-8">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+  <meta http-equiv="Pragma" content="no-cache" />
+  <meta http-equiv="Expires" content="0" />
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link rel="shortcut icon" type="image/x-icon" href="../logos/collector.ico.png" />
+</head>
+
 <script src="../../eel.js"></script>
 
 <script src="../libraries/jquery-3.3.1.min.js"></script>
@@ -36,17 +39,13 @@
 <script src="../libraries/popper.min.js"></script>
 <script src="../libraries/bootbox.4.4.0.min.js"></script>
 
-<script src="Code/initiateCollector.js"></script>
-<head>
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link rel="shortcut icon" type="image/x-icon" href="../logos/collector.ico.png" />
-</head>
+<link rel="stylesheet" href="../libraries/bootstrapCollector.css">
+<script src="../libraries/bootstrap.4.0.min.js"></script>
 
+<script src="Code/InitiateCollector.js"></script>
 <script src="Code/OnlineTriggers.js"></script>
 <script src="Code/CollectorEncrypt.js"></script>
 <script src="Code/BrowserCheck.js"></script>
-
-<link rel="stylesheet" href="../libraries/bootstrapCollector.css"><script src="../libraries/bootstrap.4.0.min.js"></script>
 
 <div id="welcome_html"></div>
 <script>
@@ -104,13 +103,14 @@ $("#welcome_html").load("Welcome.html");
 
 <!-- will look into making the following libraries local in the future -->
 
-<script src="https://www.amcharts.com/lib/3/ammap.js"></script>
-<script src="https://www.amcharts.com/lib/3/maps/js/worldLow.js"></script>
-<script src="https://www.amcharts.com/lib/3/themes/light.js"></script>
+<script src="../libraries/ammap.js"></script>
+<script src="../libraries/worldLow.js"></script>
+<script src="../libraries/ammap_theme_light.js"></script>
 
 
 
-
+<input type="hidden" id="completion_code" name="completion_code"/>
+<input type="hidden" id="prehashed_code" name="prehashed_code"/>
 <script>
 exp_json = {}; //this will get updated
 
@@ -127,7 +127,7 @@ online_data_obj = {
     var this_save = online_data_obj.save_queue.pop();
     this_save();
     if(online_data_obj.save_queue.length > 0){         //keep going until all saves done.
-      gogle_obj.run_save();
+      online_data_obj.run_save();
     }
   },
   save_queue_add:function(save_queue_item){
@@ -220,9 +220,10 @@ Study = {
     }, {});
 
     response_data["post_"+exp_json.post_no+"_trial_end_ms"]   = trial_end_ms;
+    response_data["post_"+exp_json.post_no+"_rt_ms"] = trial_end_ms - response_data["post_"+exp_json.post_no+"_trial_start_ms"]
     response_data["post_"+exp_json.post_no+"_trial_end_date"] = new Date(parseInt(trial_end_ms, 10)).toString('MM/dd/yy HH:mm:ss');
     exp_json.this_trial = response_data;
-
+    response_data["participant_browser"] = participant_browser;
 
     $("#trial"+exp_json.trial_no).contents().children().find("iframe").length;
     if($("#trial"+exp_json.trial_no).contents().children().find("iframe").length == exp_json.post_no + 1){
@@ -251,10 +252,12 @@ Study = {
       $("#trial"+exp_json.trial_no).contents().children().find("iframe").hide();
       Study.start_post();
     }
+    
     switch(Study.get_vars.platform){
       case "localhost":
         eel.save_data(Study.get_vars.location,
                       $("#participant_code").val(),
+                      $("#completion_code").val(),
                       Papa.unparse(complete_csv(exp_json.responses),{
                         quotes: false, //or array of booleans
                         header: true,
@@ -266,9 +269,11 @@ Study = {
         online_data_obj.save_queue_add(
           function(){
             online_save(Study.get_vars.location,
-                        $("#participant_code").val(),
-                        JSON.stringify(encrypt(exp_json.public_key,    //the public key
-                        JSON.stringify(exp_json.responses))),          //the data
+                      $("#participant_code").val(),
+                      $("#completion_code").val(),
+                      $("#prehashed_code").val(),  
+                      JSON.stringify(encrypt(exp_json.public_key,    //the public key
+                      JSON.stringify(exp_json.responses))),          //the data
             exp_json.save_script,
             function(){
               online_data_obj.saves_ended ++;
@@ -473,7 +478,7 @@ function final_trial(){
   switch(Study.get_vars.platform){
     case "server": //this should be changed to preview if you do not want data saved!
       $("#experiment_div").html("<h3 class='text-primary'>Please do not close this window until it has been confirmed that the researcher has been e-mailed your data (or you have downloaded the data yourself that you will e-mail the researcher). If you do not get a prompt to do this within 30 seconds, press CTRL-S and you should be able to directly download your data.</h3>");
-      download_at_end = exp_json.this_condition.download_at_end;
+
 
       $.post("emailData.php",{
         all_data   : JSON.stringify(exp_json),
@@ -551,6 +556,8 @@ function final_trial(){
               $("#participant_country").load("ParticipantCountry.html");
               window.localStorage.removeItem("exp_json");
               window.localStorage.removeItem("username");
+              window.localStorage.removeItem("completion_code");
+              window.localStorage.removeItem("prehashed_code");
             },1000);
           } else {
             var google_prog_perc = (100*online_data_obj.saves_ended/online_data_obj.saves_started) + "%";
@@ -563,9 +570,16 @@ function final_trial(){
       break;
     case "localhost":
     case "preview":
-      $("#experiment_div").html("<h1>You have finished. You can download the data by clicking <b><span id='download_json'>here</span></b>.</h1>");
+      if(exp_json.this_condition.download_at_end !== "off"){
+        download_message = "You can download the data by clicking <b><span id='download_json'>here</span></b>.";
+      } else {
+        download_message = "";
+      }
+      $("#experiment_div").html("<h1>You have finished. " + download_message + "</h1>");
       window.localStorage.removeItem("exp_json");
       window.localStorage.removeItem("username");
+      window.localStorage.removeItem("completion_code");
+      window.localStorage.removeItem("prehashed_code");
       break
   }
 
@@ -615,65 +629,81 @@ function get_gets() {
 }
 
 function insert_start(){
-  // update the procedure to have a "start" trial, which is blank
-  ///////////////////////////////////////////////////////////////
-  var this_proc  = exp_json.parsed_proc;
+  
+  // skip this if in preview mode
+  if(Study.get_vars.platform !== "preview"){
 
-  var this_proc_start = {
-    item:0,
-    max_time:"",
-    shuffle_1:"off",
-    text:"",
-    "trial type":"start_experiment"
+    // update the procedure to have a general warning
+    var this_proc  = exp_json.parsed_proc;
+
+    var this_proc_start = {
+      item:0,
+      max_time:"",
+      shuffle_1:"off",
+      text:"",
+      "trial type":"start_experiment"
+    }
+    this_proc = this_proc.unshift(this_proc_start);
+
+    // update trialtypes to have a "start" trial
+    ////////////////////////////////////////////
+    if(typeof(exp_json.trialtypes) !== "undefined"){
+      exp_json.trialtypes.start_experiment =
+        "<h1>Before starting</h1>" +
+        "<div>Please be careful about what details you give. If you feel that any inappropriate details are being asked, please contact whoever asked you to participate.</div>" +
+        "<button class='btn btn-primary' onclick='Trial.submit()'>Start</button>";
+    }  
   }
-  this_proc = this_proc.unshift(this_proc_start);
-
-  // update trialtypes to have a "start" trial
-  ////////////////////////////////////////////
-  if(typeof(exp_json.trialtypes) !== "undefined"){
-    exp_json.trialtypes.start_experiment =
-      "<h1>Before starting</h1>" +
-      "<div>Please be careful about what details you give. If you feel that any inappropriate details are being asked, please contact whoever asked you to participate.</div>" +
-      "<button class='btn btn-primary' onclick='Trial.submit()'>Start</button>";
-  }
-
   Study.activate_pipe();
 }
 
 function parse_sheets(){
-  var proc_sheet_name = exp_json.this_condition.procedure;
-  var stim_sheet_name = exp_json.this_condition.stimuli;
+  var proc_sheet_name = exp_json.this_condition.procedure
+                                .toLowerCase()
+                                .replace(".csv","") + ".csv";
+  var stim_sheet_name = exp_json.this_condition.stimuli
+                                .toLowerCase()
+                                .replace(".csv","") + ".csv"
   proc_stim_loaded = [];
-  if(proc_sheet_name.indexOf("/") !== -1){          // then we assume it's a csv file
-    $.get(proc_sheet_name,function(proc_sheet_content){
-      exp_json.parsed_proc = collectorPapaParsed(proc_sheet_content);
+  
+  switch(Study.get_vars.platform){
+    case "localhost":
+    case "preview":
+    case "github":
+      var proc_url = "../User/Experiments/" + 
+                     Study.get_vars.location +
+                     "/" + proc_sheet_name;
+      $.get(proc_url,function(proc_sheet_content){
+        exp_json.parsed_proc = collectorPapaParsed(proc_sheet_content);
+        proc_stim_loaded[1] = "procedure";
+        if(proc_stim_loaded.join("-") == "stimuli-procedure"){
+          Study.activate_pipe();
+        }
+      });
+      var stim_url = "../User/Experiments/"  + 
+                     Study.get_vars.location +
+                     "/" +  stim_sheet_name;
+      $.get(stim_url,function(stim_sheet_content){
+        exp_json.parsed_stim = [null,null].concat(collectorPapaParsed(stim_sheet_content)); 
+        proc_stim_loaded[0] = "stimuli";
+        if(proc_stim_loaded.join("-") == "stimuli-procedure"){
+          Study.activate_pipe();
+        }
+      });
+      break;
+    case "dropbox":
+    case "server":
       proc_stim_loaded[1] = "procedure";
+      exp_json.parsed_proc = collectorPapaParsed(exp_json.all_procs[proc_sheet_name]);
       if(proc_stim_loaded.join("-") == "stimuli-procedure"){
         Study.activate_pipe();
       }
-    });
-  } else {
-    proc_stim_loaded[1] = "procedure";
-    exp_json.parsed_proc = collectorPapaParsed(exp_json.all_procs[proc_sheet_name]);
-    if(proc_stim_loaded.join("-") == "stimuli-procedure"){
-      Study.activate_pipe();
-    }
-  }
-
-  if(stim_sheet_name.indexOf("/") !== -1){          // then we assume it's a csv file
-    $.get(stim_sheet_name,function(stim_sheet_content){
-      exp_json.parsed_stim = collectorPapaParsed(stim_sheet_content);
+      exp_json.parsed_stim = collectorPapaParsed(exp_json.all_stims[stim_sheet_name]);
       proc_stim_loaded[0] = "stimuli";
       if(proc_stim_loaded.join("-") == "stimuli-procedure"){
         Study.activate_pipe();
-      }
-    });
-  } else {
-    exp_json.parsed_stim = collectorPapaParsed(exp_json.all_stims[stim_sheet_name]);
-    proc_stim_loaded[0] = "stimuli";
-    if(proc_stim_loaded.join("-") == "stimuli-procedure"){
-      Study.activate_pipe();
-    }
+      }      
+      break;
   }
 }
 
@@ -724,7 +754,7 @@ function parse_current_proc(){
 
   	for(var j = 0; j < this_proc.length; j++){
   		var row = this_proc[j];
-  		if(row.item.indexOf(":") == -1 && row.item.indexOf(",") == -1){
+  		if(row.item.indexOf(" to ") == -1 && row.item.indexOf(",") == -1){
   			filled_proc.push(row);
   		} else {
   			// split by commas
@@ -732,12 +762,12 @@ function parse_current_proc(){
   			var items_array = row.item.split(",");
   			var complete_items_array = [];
   			items_array.forEach(function(item){
-  				if(item.indexOf(":") == -1){
+  				if(item.indexOf(" to ") == -1){
   					complete_items_array.push(item);
   				} else {
   					// split by colons
   					///////////////////
-  					item_start_end = item.split(":");
+  					item_start_end = item.split(" to ");
   					if(item_start_end.length > 2){
   						bootbox.alert("There is a problem with the procedure sheet - see the row in which the item column value is " +row.item + ", there is more than 1 ':' which is not allowed. If you are not the researcher, can you please send this message to them.");
   					}
@@ -777,6 +807,12 @@ function participant_backup(){
 }
 
 function post_welcome(participant_code,id_error){
+  var completion_code = Math.random().toString(36).substr(2, 10);
+  window.localStorage.setItem("completion_code",completion_code);
+  $("#completion_code").val(completion_code);
+  var prehashed_code = Math.random().toString(36).substr(2, 10);
+  window.localStorage.setItem("prehashed_code",prehashed_code);
+  $("#prehashed_code").val(prehashed_code);
   switch(Study.get_vars.platform){
     case "server":
       $.post("PostWelcome.php",{
@@ -788,6 +824,7 @@ function post_welcome(participant_code,id_error){
       break;
     case "github":
     case "localhost":
+    case "preview":
       id_error = "skip";
       post_welcome_data("blank");
       break;
@@ -810,7 +847,7 @@ function post_welcome_data(returned_data){
     } else if(id_error == "random"){
 
       //generate new random code
-      var this_code = Math.random().toString(36).substr(2, 16)
+      var this_code = Math.random().toString(36).substr(2, 16);
       post_welcome(this_code,"random");
 
     } else if(id_error == false){
@@ -871,10 +908,8 @@ function precrypted_data(decrypted_data,message){
 }
 
 function process_welcome(){
-
-	if(document.getElementById("loading_exp_json") !== null) {
-
-		// skip participant id? (and thus start_message)
+  if(document.getElementById("loading_exp_json") !== null) {
+    // skip participant id? (and thus start_message)
 		////////////////////////////////////////////////
 		pp_id_setting = exp_json.this_condition.participant_id;
 
@@ -993,7 +1028,11 @@ function start_restart(){
   				callback: function(){
             exp_json = JSON.parse(window.localStorage.getItem("exp_json"));
             var participant_code = window.localStorage.getItem("username");
+            var completion_code = window.localStorage.getItem("completion_code");
+            var prehashed_code = window.localStorage.getItem("prehashed_code");
             $("#participant_code").val(participant_code);
+            $("#completion_code").val(completion_code);
+            $("#prehashed_code").val(prehashed_code);
             post_welcome(participant_code,false);
             Study.activate_pipe();
   				}
@@ -1022,6 +1061,14 @@ function start_restart(){
 function start_study(){
   switch(Study.get_vars.platform){
     case "localhost":
+      //expose...?
+      eel.expose(python_gives_exp);
+      function python_gives_exp(result){
+        exp_json = result;
+        Study.activate_pipe();
+      }
+      eel.ask_python_exp(Study.get_vars.location);
+      break;
     case "github":
     case "preview":
       $.get("../User/Experiments/" + Study.get_vars.location + ".json",function(result){
@@ -1051,7 +1098,6 @@ function write_trial_iframe(index){
 	if(typeof(exp_json.parsed_proc[index]) == "undefined"){
 		return null;
 	}
-	$("#preview_message").html("");
 	$("#experiment_div").append("<iframe class='trial_iframe' scrolling='no' frameBorder='0' id='trial"+index+"'></iframe>");
 	this_proc = exp_json.parsed_proc[index];
 

@@ -285,7 +285,7 @@ function load_survey(survey){
     survey_obj.boosts = master_json.boosts;                                //no need to be efficient in preview
 
   } else {                                                                      // No
-    survey = survey.toLowerCase().replace(".csv","");
+    survey = survey.toLowerCase().replace(".csv","") + ".csv";
 
     if(typeof(parent.parent.exp_json.surveys) !== "undefined" && 
        typeof(parent.parent.exp_json.surveys[survey]) !== "undefined"){
@@ -293,7 +293,7 @@ function load_survey(survey){
       survey_obj.boosts = parent.parent.exp_json.boosts;                     //take boosts from exp_json
 
     } else {
-      bootbox.alert("Survey" + survey  + " doesn't appear to exist");
+      bootbox.alert("Survey " + survey  + " doesn't appear to exist");
     }
   }
   process_returned_questionnaire(survey_content);
@@ -330,8 +330,10 @@ function likert_update(this_element,this_response,this_value){
   $("#survey_"+item_name+"_response").val(this_response);
   response_check(this_element);
 }
+  console.dir("breaking near here? huh?");
 
 function process_item_score(survey_obj,row_no,values_col,this_response,item,values_reverse){
+  console.dir("breaking near here?");
   item_values       = survey_obj.data[row_no][values_col].split("|");
   if(typeof(values_reverse) !== "undefined" && values_reverse == "r"){
     item_values.reverse();
@@ -577,8 +579,12 @@ function process_survey_question(this_row,row_no){
           // tidy up this code for nice looking buttons
           case "likert":
               feedback_string = generate_feedback_string(feedback_array,0,feedback_color,row_no,this_row);
-
+              console.dir("break coming up, ja?");
+              console.dir(this_row);
               var options  = this_row["answers"].split("|");
+              if(typeof(this_row["values"]) == "undefined"){
+                this_row["values"] = this_row["answers"];
+              }
               var values   = this_row["values"].split("|");
               question_td += "<table class='likert_table'><tr>" +
                                   '<td>'+

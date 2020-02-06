@@ -63,9 +63,9 @@ Hard coding the libraries in this page for smoothness (rather than calling "libr
 <script type="text/javascript" charset="utf-8" src="../libraries/ace-master/ace.js"></script>
 <script type="text/javascript" charset="utf-8" src="../libraries/ace-master/ext-language_tools.js"></script>
 <!-- handsontable -->
-<link   rel="stylesheet" href="IndexTabs/Studies/handsontables/handsontables.full.css">
-<script type="text/javascript" charset="utf-8" src="IndexTabs/Studies/handsontables/handsontables.full.js"></script>
-<script type="text/javascript" charset="utf-8" src="IndexTabs/Studies/HandsontableFunctions.js"></script>
+<link   rel="stylesheet" href="Studies/handsontables/handsontables.full.css">
+<script type="text/javascript" charset="utf-8" src="Studies/handsontables/handsontables.full.js"></script>
+<script type="text/javascript" charset="utf-8" src="Studies/HandsontableFunctions.js"></script>
 <!--
 	fix to close button being messed up, by  Paweł Rymsza  on https://stackoverflow.com/questions/48529880/bootbox-dialog-modal-bootstrap-4
 -->
@@ -77,7 +77,7 @@ Hard coding the libraries in this page for smoothness (rather than calling "libr
 <!-- Collector javascript functions-->
 <script type="text/javascript" charset="utf-8" src="jsFunctions.js"></script>
 <script type="text/javascript" charset="utf-8" src="dbxFunctions.js"></script>
-<script src="browserCheck.js"></script>
+<script src="Code/BrowserCheck.js"></script>
 
 <script src="CollectorMap.js"></script>
 <script>
@@ -110,10 +110,10 @@ collector_map = this_map("");
       </td>
       <script>
         var navbar_names  = ["Studies","Surveys","Boost","Data"];
-        var pages         = ["IndexTabs/Studies/studies.html",
-                             "IndexTabs/Surveys/Surveys.html",
-                             "IndexTabs/Boost/Boost.html",
-                             "IndexTabs/Data/data.html"];
+        var pages         = ["Studies/Studies.html",
+                             "Surveys/Surveys.html",
+                             "Boost/Boost.html",
+                             "Data/Data.html"];
         navbar_names.forEach(function(this_name,index){
           $("#content_area").append("<div class='collapse multi-collapse' style='width:100%' id='collapse_" + this_name +"' >");
           $("#collapse_" + this_name).load(pages[index]);
@@ -164,11 +164,11 @@ collector_map = this_map("");
 <div id="login_div"></div>
 
 <script>
-$("#help_area").load("IndexTabs/Help/help.html");
+$("#help_area").load("Help/Help.html");
 $("#logo_div").load("../logos/logo.html");
 $("#logout_div").load("LogoutInterface.html");
 $("#login_div").load("LoginInterface.html");
 </script>
-<script src="Code/initiateCollector.js"></script>
+<script src="Code/InitiateCollector.js"></script>
 <script src="MobileCheck.js"></script>
 <script src="ContextStart.js"></script>

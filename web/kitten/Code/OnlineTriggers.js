@@ -17,14 +17,18 @@ function google_keys(key_type){
 
 function online_save(experiment_id,
                      participant_id,
+                     completion_code,
+                     prehashed_code,
                      encrypted_data,
                      save_script_url,
                      after_function){
 
   data = {
-    participant_id: participant_id,
-    experiment_id:  experiment_id,
-    encrypted_data: encrypted_data,
+    completion_code: completion_code,
+    encrypted_data:  encrypted_data,
+    experiment_id:   experiment_id,
+    participant_id:  participant_id,
+    prehashed_code:  prehashed_code
   };
   $.ajax({
     type: 'POST',
