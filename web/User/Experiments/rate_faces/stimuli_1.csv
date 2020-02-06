@@ -1,4 +1,3 @@
-Cue,Answer,responses,
-AF_BW_JPEG/AF01_BW/AF01_CC.jpg,Apple,African|Caucasian|East Asian|South Asian|Other,
-B,Banana,,
-,,,
+Cue,Answer,responses_1,cue_height,cue_width,btn_width,instruct_1,responses_2,instruct_2,
+AF_BW_JPEG/AF01_BW/AF01_CC.jpg,Apple,African|Caucasian|East Asian|South Asian|Other,600px,600px,150px,What ethnicity does this look most like to you?,1|2|3|4|5|6|7,How Confident are you?,
+,,,,,,,,,

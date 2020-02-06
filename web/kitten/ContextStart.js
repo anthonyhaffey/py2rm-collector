@@ -19,6 +19,7 @@ eel.expose(python_hide_bb);
 function python_hide_bb(){
   setTimeout(function(){
     python_dialog.modal("hide");
+    editor.focus();
   },1000);
 }
 
