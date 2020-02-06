@@ -35,13 +35,13 @@ if(typeof(Trial) !== "undefined"){
 		});
   }
   Trial.get = function(this_name){
-    return parent.parent.parent.exp_json.storage[this_name];
+    return  parent.parent.exp_json.storage[this_name];
   }
   Trial.set = function(this_name,this_content){
     if(typeof(parent.parent.exp_json.storage) == "undefined"){
       parent.parent.exp_json.storage = {};
     }
-    parent.parent.parent.exp_json.storage[this_name] = this_content;
+    parent.parent.exp_json.storage[this_name] = this_content;
   }
   Trial.submit = function(){
     parent.parent.exp_json.inputs = jQuery( "[name]" );
