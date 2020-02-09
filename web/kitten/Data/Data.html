@@ -191,7 +191,9 @@ encrypt_obj = {
               }
             });            
           }
-          
+          if(typeof(master_json.keys.archived) == "undefined"){
+            master_json.keys.archived = [];
+          }
           var all_private_keys = master_json.keys.archived.map(function(row){
             return row.encrypted_private_key
           });

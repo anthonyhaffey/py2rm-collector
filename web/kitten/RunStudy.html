@@ -551,7 +551,15 @@ function final_trial(){
           if(online_data_obj.saves_started == online_data_obj.saves_ended){
             $("#google_progress").css("width","100%");
             setTimeout(function(){
-              $("#experiment_div").html("<h1>Thank you for participating. If you'd like to download your raw data <span id='download_json'>click here</span></h1>");
+              if(exp_json.this_condition.download_at_end !== "off"){
+                var download_at_end_html = " If you'd like to download your raw data <span id='download_json'>click here</span></h1>";
+              } else {
+                var download_at_end_html = "";
+              }
+              $("#experiment_div").html("<h1>Thank you for participating." + download_at_end_html);
+              $("#download_json").on("click",function(){
+                precrypted_data(exp_json,"What do you want to save this file as?");
+              });
               $("#participant_country").show();
               $("#participant_country").load("ParticipantCountry.html");
               window.localStorage.removeItem("exp_json");
@@ -576,16 +584,15 @@ function final_trial(){
         download_message = "";
       }
       $("#experiment_div").html("<h1>You have finished. " + download_message + "</h1>");
+      $("#download_json").on("click",function(){
+        precrypted_data(exp_json,"What do you want to save this file as?");
+      });
       window.localStorage.removeItem("exp_json");
       window.localStorage.removeItem("username");
       window.localStorage.removeItem("completion_code");
       window.localStorage.removeItem("prehashed_code");
       break
   }
-
-	$("#download_json").on("click",function(){
-		precrypted_data(exp_json,"What do you want to save this file as?");
-	});
 }
 
 function full_screen(){

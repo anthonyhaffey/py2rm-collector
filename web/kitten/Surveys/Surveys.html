@@ -310,7 +310,7 @@ $("#new_survey_button").on("click",function(){
 				bootbox.prompt({
 					title: "New Survey",
 					callback: function(survey_name){
-						survey_name = survey_name.toLowerCase().replaceAll(".csv","");
+						survey_name = survey_name.toLowerCase().replaceAll(".csv","") + ".csv";
 						if(typeof(master_json.surveys.user_surveys[survey_name] == "undefined")){
 							var survey_content = survey_HoT.getData();
 							master_json.surveys.user_surveys[survey_name] = survey_content;

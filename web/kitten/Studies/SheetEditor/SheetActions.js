@@ -414,7 +414,8 @@ $("#save_btn").on("click", function(){
               
 					these_variables.forEach(function(this_variable){
 						if(Object.keys(cleaned_row).indexOf(this_variable) == -1 &&
-               this_variable !== "survey"){          //i.e. this variable is not part of this procedure
+               this_variable !== "survey" &&
+               cleaned_row["trial type"] !== "survey"){          //i.e. this variable is not part of this procedure
 							custom_alert("You have your item set to <b>0</b> in row <b>" +
 														(row_index + 2) +
 														"</b>. However, it seems like the trialtype <b>" +

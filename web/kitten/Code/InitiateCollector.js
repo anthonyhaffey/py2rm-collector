@@ -113,7 +113,7 @@ function custom_alert(msg,duration) {
 	el.css("opacity", "0");
 	$("#alerts").append(el).show();
 	el.animate({opacity: "1"}, 600, "swing", function() {
-		$(this).delay(duration).animate({height: "0px",positon: "fixed"}, 800, "swing", function() {
+		$(this).delay(duration).animate({height: "0px"}, 800, "swing", function() {
 			$(this).remove();
 			if ($("#alerts").html() === '') {
 				$("#alerts").hide();

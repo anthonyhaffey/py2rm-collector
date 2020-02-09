@@ -3,11 +3,11 @@
 ///////////////
 
 //Publicly available libraries
-window.jQuery        || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"><\/script>');
+window.jQuery        || document.write('<script src="../libraries/jquery-3.3.1.min><\/script>');
 
-window.bootstrap || document.write('<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"><\/script><link href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">');
+window.bootstrap || document.write('<script src="../libraries/bootstrap.4.0.min"><\/script><link href="../libraries/bootstrapCollector.min.css" rel="stylesheet">');
 
-window.Papa          || document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.1.0/papaparse.min.js"><\/script>');
+window.Papa          || document.write('<script src="../libraries/papaparse.4.3.6.min"><\/script>');
 
 // Collector specific
 
