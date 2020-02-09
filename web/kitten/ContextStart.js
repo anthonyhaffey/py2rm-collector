@@ -11,14 +11,15 @@ python_dialog = bootbox.dialog({
 
 eel.expose(python_bootbox);
 function python_bootbox(message){
-  $("#python_message").html(message);
-  python_dialog.modal("show");
+  custom_alert(message);
+  //$("#python_message").html(message);
+  //python_dialog.modal("show");
 }
 
 eel.expose(python_hide_bb);
 function python_hide_bb(){
   setTimeout(function(){
-    python_dialog.modal("hide");
+    //python_dialog.modal("hide");
   },1000);
 }
 
