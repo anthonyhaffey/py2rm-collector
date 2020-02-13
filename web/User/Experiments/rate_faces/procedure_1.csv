@@ -1,4 +1,4 @@
 Item,Trial Type,Max Time,Text,Shuffle 1,
-0,instruct,user,Howdy,trials,
-2 to 10,rate_face,user,,trials,
+0,instruct,user,Howdy,off,
+2 to 110,rate_face,user,,trials,
 ,,,,,
