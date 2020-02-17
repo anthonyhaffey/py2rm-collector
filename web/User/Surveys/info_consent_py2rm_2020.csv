@@ -1,0 +1,32 @@
+item_name,text,Type,Answers,Optional,Values,
+description,"<h1>Title of Study: What predicts responses to hand movements?</h1>
+
+<h2>Information & Consent Sheet</h2>
+
+<h3>Researchers: <br>
+Dr Anthony Haffey<br>
+Second Year Psychology Students<br>
+contact: a.haffey@reading.ac.uk<br></h3>
+<br>
+This is a project taking place at the Psychology and Clinical Language department of the University of Reading, as part of a compulsory 2nd year BSc module on Research Methods and Data Analysis. If you have any questions about this project, please contact the project supervisor, or the module convenor (below).<br><br>
+
+Your data will be kept confidential and securely stored, with only an anonymous number identifying it.  As data will be entirely anonymous and contains no personally identifying information we will keep it and may release it along with any publications that come from this research in the future. Taking part in this study is completely voluntary; you may withdraw at any time, even when you’re part way through, without having to give any reason. After reading and considering this form, your continued participation indicates you have given informed consent. <br><br>
+
+In this project we are interested in your responses to faces and hand movements. Your participation is very much appreciated. <br><br>
+
+This application has been reviewed by the University Research Ethics Committee and has been given a favourable ethical opinion for conduct <br><br>
+
+Thank you, <br><br>
+
+Project Supervisor: Anthony Haffey <br><br>
+
+
+
+
+
+
+
+
+Module convenor: Eugene McSorley  (e.mcsorley@reading.ac.uk)",instruct,The homeless man was ignored by everyone|The homeless man was helped by some people|The homeless man was helped by everyone,No,,
+confirm,I understand the above and am happy to proceed,likert,yes,No,,
+,,,,,,
