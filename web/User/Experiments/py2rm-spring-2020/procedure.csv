@@ -3,7 +3,7 @@ item,trial type,max time,text,shuffle 1,instruct_1,responses_1,instruct_2,respon
 0,survey,user,,off,,,,,,,info_consent_py2rm_2020.csv,,
 2,instruct,user,In this experiment you'll be asked to lift your <b>index</b> or <b>middle</b> finger in response to a number on the screen. Please follow the instructions and response as quickly as possible. <br><br> You are about to have some practice trials.,off,,,,,,,,,
 258 to 261,finger_imitation,,,practice,,,,,,,,2,
-0,instruct,,You have completed the practice trials! If you're not sure you understand the task please do contact the researcher before proceeding,off,,,,,,,,,
+0,instruct,,"You have completed the practice trials! If you're not sure you understand the task please do contact the researcher before proceeding <br><br> Click ""Proceed"" to start the main experiment.",off,,,,,,,,,
 2 to 129,finger_imitation,user,,off,,,,,,,,,
 0,instruct,user,You may take a break if you'd like to. You're half way through the main task.,off,,,,,,,,,
 130 to 257,finger_imitation,user,,off,,,,,,,,,
