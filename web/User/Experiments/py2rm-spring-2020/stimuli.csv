@@ -255,4 +255,8 @@ HM_BW_JPEG/HM10_BW/HM10_HO.jpg,,EA_female_1_AF07_BW/AF07_HO.jpg,happy,female,1,o
 ,,SA_male_2_HM10_BW/HM10_AO.jpg,angry,male,8,open,south asian,gloved/baseline.JPG,gloved/middle1.JPG,gloved/middle2.JPG,gloved/middle3.JPG,compatible,2,,,
 ,,A_female_2_BF17_BW/BF17_AO.jpg,angry,female,2,open,african,gloved/baseline.JPG,gloved/index1.JPG,gloved/index2.JPG,gloved/index3.jpg,incompatible,2,,,
 ,,SA_male_1_AM03_BW/AM03_AC.jpg,angry,male,7,closed,south asian,gloved/baseline.JPG,gloved/middle1.JPG,gloved/middle2.JPG,gloved/middle3.JPG,compatible,2,,,
+,,neutral.jpg,practice,neutral,0,neutral,neutral,gloved/baseline.JPG,gloved/index1.JPG,gloved/index2.JPG,gloved/index3.jpg,compatible,1,,,
+,,neutral.jpg,practice,neutral,0,neutral,neutral,gloved/baseline.JPG,gloved/index1.JPG,gloved/index2.JPG,gloved/index3.jpg,incompatible,2,,,
+,,neutral.jpg,practice,neutral,0,neutral,neutral,gloved/baseline.JPG,gloved/middle1.JPG,gloved/middle2.JPG,gloved/middle3.JPG,incompatible,1,,,
+,,neutral.jpg,practice,neutral,0,neutral,neutral,gloved/baseline.JPG,gloved/middle1.JPG,gloved/middle2.JPG,gloved/middle3.JPG,compatible,2,,,
 ,,,,,,,,,,,,,,,,
