@@ -175,6 +175,8 @@ encrypt_obj = {
                     all_decrypted = [];
                     encrypt_obj.current_batch.map(function([default_filename,encrypted_content]){
                       this_decrypted_message = JSON.parse(encrypt_obj.decrypt(decrypted_private_key,JSON.parse(encrypted_content)));
+                      console.dir("this_decrypted_message");
+                      console.dir(this_decrypted_message);
                       this_decrypted_message = this_decrypted_message.map(function(row){
                         row["username"] = default_filename;
                         all_decrypted.push(row);
